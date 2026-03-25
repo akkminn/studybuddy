@@ -15,7 +15,7 @@ coverage/
 !.env.example
 
 # Firebase & other configs that might contain API keys
-firebase-applet-config.json
-/firebase-applet-config.json
+# firebase-applet-config.json
+# /firebase-applet-config.json
 firebase-config.json
 /firebase-config.json
