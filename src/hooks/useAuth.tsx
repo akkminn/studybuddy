@@ -1,5 +1,11 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import { onAuthStateChanged, User, signInWithPopup, signOut } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  User,
+  signInWithRedirect,
+  getRedirectResult,
+  signOut
+} from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db, googleProvider } from "../lib/firebase";
 
@@ -19,6 +25,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getRedirectResult(auth).catch((error) => {
+      console.error("Redirect result error:", error);
+    });
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
@@ -49,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
+      await signInWithRedirect(auth, googleProvider);
     } catch (error: any) {
       if (error.code === "auth/popup-closed-by-user") {
         console.log("User closed the login popup");
@@ -58,7 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
   };
-
+  
   const logout = async () => {
     await signOut(auth);
   };
