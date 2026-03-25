@@ -1,8 +1,10 @@
 import mammoth from "mammoth";
 import * as pdfjs from "pdfjs-dist";
+// @ts-ignore - Vite handles the ?url import correctly
+import pdfjsWorkerUrl from "pdfjs-dist/build/pdf.worker.mjs?url";
 
-// Set worker source for pdfjs. Need to ensure it points to the correct build
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
+// Use Vite's ?url import to bundle the worker directly instead of fetching from unpkg, preventing CORS/COOP issues
+pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorkerUrl;
 
 self.onmessage = async (e: MessageEvent) => {
   const { file, extension } = e.data;
