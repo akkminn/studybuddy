@@ -48,7 +48,27 @@ export function Quiz() {
         const docRef = doc(db, "quizzes", id);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setQuiz(docSnap.data());
+          const quizData = docSnap.data();
+          
+          if (quizData.questions && Array.isArray(quizData.questions)) {
+            const shuffleArray = (array: any[]) => {
+              const newArray = [...array];
+              for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+              }
+              return newArray;
+            };
+
+            quizData.questions = shuffleArray(quizData.questions).map(q => {
+              if (q.options && Array.isArray(q.options)) {
+                return { ...q, options: shuffleArray(q.options) };
+              }
+              return q;
+            });
+          }
+          
+          setQuiz(quizData);
         } else {
           navigate("/dashboard");
         }
