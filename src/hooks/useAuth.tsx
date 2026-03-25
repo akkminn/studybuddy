@@ -2,7 +2,7 @@ import { useState, useEffect, createContext, useContext } from "react";
 import {
   onAuthStateChanged,
   User,
-  signInWithRedirect,
+  signInWithPopup,
   getRedirectResult,
   signOut
 } from "firebase/auth";
@@ -25,9 +25,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getRedirectResult(auth).catch((error) => {
-      console.error("Redirect result error:", error);
-    });
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
@@ -59,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = async () => {
     try {
-      await signInWithRedirect(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
     } catch (error: any) {
       if (error.code === "auth/popup-closed-by-user") {
         console.log("User closed the login popup");

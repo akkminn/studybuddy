@@ -30,6 +30,10 @@ self.onmessage = async (e: MessageEvent) => {
     
     self.postMessage({ success: true, text });
   } catch (error: any) {
-    self.postMessage({ success: false, error: error.message || "Failed to process document" });
+    console.error("Worker processing error:", error);
+    self.postMessage({ 
+       success: false, 
+       error: error?.message || String(error) || "Failed to process document" 
+    });
   }
 };

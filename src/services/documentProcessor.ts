@@ -8,12 +8,17 @@ export async function extractTextFromFile(file: File): Promise<string> {
     });
 
     worker.onmessage = (e) => {
-      if (e.data.success) {
-        resolve(e.data.text);
+      // Filter out internal messages (like Vite HMR in dev mode)
+      if (e.data && typeof e.data.success === 'boolean') {
+        if (e.data.success) {
+          resolve(e.data.text);
+        } else {
+          reject(new Error(e.data.error || "Unknown worker error"));
+        }
+        worker.terminate();
       } else {
-        reject(new Error(e.data.error));
+        console.debug("Worker received non-result message:", e.data);
       }
-      worker.terminate();
     };
 
     worker.onerror = (err) => {
