@@ -4,12 +4,23 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import { formatDate } from "../lib/utils";
-import { Trophy, Clock, Zap, ArrowRight, BookOpen } from "lucide-react";
+import { Trophy, Clock, Zap, ArrowRight, BookOpen, Trash2 } from "lucide-react";
 import { useQuizzes } from "../hooks/useQuizzes";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../components/ui/alert-dialog";
 
 export function QuizzesList() {
   const { user } = useAuth();
-  const { quizzes, loading } = useQuizzes(user?.uid);
+  const { quizzes, loading, deleteQuiz } = useQuizzes(user?.uid);
 
   return (
     <div className="space-y-8">
@@ -35,7 +46,49 @@ export function QuizzesList() {
       ) : quizzes.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {quizzes.map((quiz) => (
-            <Card key={quiz.id} className="group hover:shadow-md transition-shadow">
+            <Card key={quiz.id} className="group hover:shadow-md transition-shadow relative">
+              <div className="absolute top-4 right-4 z-10 transition-opacity">
+                <AlertDialog>
+                  <AlertDialogTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-slate-400 hover:text-red-500 hover:bg-red-50"
+                        title="Delete quiz"
+                      />
+                    }
+                  >
+                    <Trash2 size={18} />
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-lg">Delete Quiz</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Are you sure you want to delete this quiz? This action cannot be undone.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel size="lg">Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        size="lg"
+                        className="bg-red-500 hover:bg-red-600 focus:ring-red-500"
+                        onClick={async () => {
+                          try {
+                            if (deleteQuiz) {
+                              await deleteQuiz(quiz.id);
+                            }
+                          } catch (err) {
+                            console.error("Failed to delete quiz:", err);
+                          }
+                        }}
+                      >
+                        Delete
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
               <CardHeader>
                 <CardTitle className="text-lg group-hover:text-indigo-600 transition-colors">{quiz.title}</CardTitle>
                 <CardDescription className="flex items-center gap-2">

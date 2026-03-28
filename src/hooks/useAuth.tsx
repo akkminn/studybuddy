@@ -1,13 +1,7 @@
-import { useState, useEffect, createContext, useContext } from "react";
-import {
-  onAuthStateChanged,
-  User,
-  signInWithPopup,
-  getRedirectResult,
-  signOut
-} from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import { auth, db, googleProvider } from "../lib/firebase";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {onAuthStateChanged, signInWithPopup, signOut, User} from "firebase/auth";
+import {doc, getDoc, setDoc} from "firebase/firestore";
+import {auth, db, googleProvider} from "../lib/firebase";
 
 interface AuthContextType {
   user: User | null;
@@ -26,7 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
 
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    return onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
         const docRef = doc(db, "users", user.uid);
@@ -50,8 +44,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       setLoading(false);
     });
-
-    return unsubscribe;
   }, []);
 
   const login = async () => {

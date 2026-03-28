@@ -3,15 +3,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc, addDoc, collection, updateDoc, increment } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../hooks/useAuth";
-import { 
-  AlertDialog, 
-  AlertDialogAction, 
-  AlertDialogCancel, 
-  AlertDialogContent, 
-  AlertDialogDescription, 
-  AlertDialogFooter, 
-  AlertDialogHeader, 
-  AlertDialogTitle 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle
 } from "../components/ui/alert-dialog";
 import confetti from "canvas-confetti";
 
@@ -25,18 +25,18 @@ export function Quiz() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [quiz, setQuiz] = useState<any>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
-  
+
   // Gamification state
   const [hearts, setHearts] = useState(5);
   const [streak, setStreak] = useState(0);
   const [showExitDialog, setShowExitDialog] = useState(false);
-  
+
   const [isFinished, setIsFinished] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -49,7 +49,7 @@ export function Quiz() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const quizData = docSnap.data();
-          
+
           if (quizData.questions && Array.isArray(quizData.questions)) {
             const shuffleArray = (array: any[]) => {
               const newArray = [...array];
@@ -67,7 +67,7 @@ export function Quiz() {
               return q;
             });
           }
-          
+
           setQuiz(quizData);
         } else {
           navigate("/dashboard");
@@ -83,7 +83,7 @@ export function Quiz() {
 
   const handleAnswer = (option: string | null) => {
     if (isAnswered) return;
-    
+
     setSelectedOption(option);
     setIsAnswered(true);
 
@@ -105,7 +105,7 @@ export function Quiz() {
 
   const nextQuestion = async () => {
     if (gameOver) return;
-    
+
     if (currentQuestion < quiz.questions.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
       setSelectedOption(null);
@@ -121,7 +121,7 @@ export function Quiz() {
 
     try {
       const finalScore = score + (selectedOption === quiz.questions[currentQuestion].correctAnswer ? 1 : 0);
-      
+
       await addDoc(collection(db, "performances"), {
         userId: user.uid,
         quizId: id,
@@ -163,7 +163,7 @@ export function Quiz() {
 
   return (
     <div className="min-h-[calc(100vh-80px)] flex flex-col pt-4 pb-32">
-      <QuizHeader 
+      <QuizHeader
         currentQuestion={currentQuestion}
         totalQuestions={quiz.questions.length}
         streak={streak}
@@ -171,7 +171,7 @@ export function Quiz() {
         onExit={() => setShowExitDialog(true)}
       />
 
-      <QuestionCard 
+      <QuestionCard
         currentQuestionIndex={currentQuestion}
         question={question}
         isAnswered={isAnswered}
@@ -179,7 +179,7 @@ export function Quiz() {
         onAnswer={handleAnswer}
       />
 
-      <BottomActionBar 
+      <BottomActionBar
         isAnswered={isAnswered}
         isCorrect={isCorrect}
         correctAnswer={question.correctAnswer}
@@ -189,18 +189,19 @@ export function Quiz() {
 
       {/* Exit Dialog */}
       <AlertDialog open={showExitDialog} onOpenChange={setShowExitDialog}>
-        <AlertDialogContent className="rounded-3xl p-4">
+        <AlertDialogContent className="rounded-2xl p-4">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-2xl font-bold text-center">Are you sure you want to quit?</AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-slate-500 text-lg">
+            <AlertDialogTitle className="text-lg text-center">Are you sure you want to quit?</AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-slate-500 text-base">
               You will lose your progress for this quiz!
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter className="flex flex-col sm:flex-row gap-3 mt-6">
-            <AlertDialogCancel className="h-12 rounded-xl text-lg font-medium w-full sm:w-1/2 mt-0">Keep Learning</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={() => navigate("/dashboard")} 
-              className="h-12 rounded-xl text-lg font-medium w-full sm:w-1/2 bg-rose-500 hover:bg-rose-600 text-white border-0"
+            <AlertDialogCancel size="lg" className="h-11 rounded-xl text-base font-medium w-full sm:w-1/2 mt-0">Keep Learning</AlertDialogCancel>
+            <AlertDialogAction
+              size="lg"
+              onClick={() => navigate("/dashboard")}
+              className="h-11 rounded-xl text-base font-medium w-full sm:w-1/2 bg-rose-500 hover:bg-rose-600 text-white border-0"
             >
               Quit Quiz
             </AlertDialogAction>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, query, where, getDocs, orderBy, limit as firestoreLimit } from "firebase/firestore";
+import { collection, query, where, getDocs, orderBy, limit as firestoreLimit, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
 export function useQuizzes(userId: string | undefined, limitCount?: number) {
@@ -44,5 +44,15 @@ export function useQuizzes(userId: string | undefined, limitCount?: number) {
     fetchQuizzes();
   }, [userId, limitCount]);
 
-  return { quizzes, loading, error };
+  const deleteQuiz = async (quizId: string) => {
+    try {
+      await deleteDoc(doc(db, "quizzes", quizId));
+      setQuizzes((prev) => prev.filter((quiz) => quiz.id !== quizId));
+    } catch (err: any) {
+      console.error("Error deleting quiz:", err);
+      throw err;
+    }
+  };
+
+  return { quizzes, loading, error, deleteQuiz };
 }
