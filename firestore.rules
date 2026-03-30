@@ -132,14 +132,14 @@ service cloud.firestore {
 
     match /quizzes/{quizId} {
       allow read: if isAuthenticated();
-      allow create: if (isTeacher() || isAdmin()) && isValidQuiz(request.resource.data);
+      allow create: if isAuthenticated() && isValidQuiz(request.resource.data);
       allow update: if (isOwner(resource.data.createdBy) || isAdmin()) && isValidQuiz(request.resource.data);
       allow delete: if isOwner(resource.data.createdBy) || isAdmin();
     }
 
     match /flashcardSets/{setId} {
       allow read: if isAuthenticated();
-      allow create: if (isTeacher() || isAdmin()) && isValidFlashcardSet(request.resource.data);
+      allow create: if isAuthenticated() && isValidFlashcardSet(request.resource.data);
       allow update: if (isOwner(resource.data.createdBy) || isAdmin()) && isValidFlashcardSet(request.resource.data);
       allow delete: if isOwner(resource.data.createdBy) || isAdmin();
     }

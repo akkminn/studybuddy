@@ -16,7 +16,7 @@ export async function extractTextFromFile(file: File): Promise<string> {
           reject(new Error(e.data.error || "Unknown worker error"));
         }
         worker.terminate();
-      } else {
+      } else if (e.data?.action !== 'ready') {
         console.debug("Worker received non-result message:", e.data);
       }
     };
