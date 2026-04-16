@@ -121,6 +121,15 @@ service cloud.firestore {
              isValidDateString(data.completedAt);
     }
 
+    function isValidDocument(data) {
+      return hasRequiredFields(['title', 'textContent', 'createdBy', 'createdAt']) &&
+             hasOnlyAllowedFields(['title', 'textContent', 'createdBy', 'createdAt']) &&
+             data.title is string && data.title.size() > 0 &&
+             data.textContent is string &&
+             data.createdBy == request.auth.uid &&
+             isValidDateString(data.createdAt);
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
@@ -149,6 +158,13 @@ service cloud.firestore {
       allow create: if isAuthenticated() && isValidPerformance(request.resource.data);
       allow update: if false; // Performances are immutable
       allow delete: if isAdmin();
+    }
+
+    match /documents/{docId} {
+      allow read: if isAuthenticated() && (isOwner(resource.data.createdBy) || isAdmin());
+      allow create: if isAuthenticated() && isValidDocument(request.resource.data);
+      allow update: if false; // Documents are immutable snapshots
+      allow delete: if isOwner(resource.data.createdBy) || isAdmin();
     }
 
     // Default deny

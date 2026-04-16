@@ -2,10 +2,26 @@ import { GoogleGenAI, Type } from "@google/genai";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export async function generateQuiz(content: string) {
+export interface QuizSettings {
+  difficulty: string;
+  questionCount: number;
+  quizType: string;
+}
+
+export async function generateQuiz(content: string, settings?: QuizSettings) {
+  const difficultyStr = settings?.difficulty || "Medium";
+  const count = settings?.questionCount || 10;
+  const typeStr = settings?.quizType || "Mixed";
+  
+  let typePrompt = "a mix of multiple choice, true/false, and fill-in-the-blank questions";
+  if (typeStr === "Multiple Choice") typePrompt = "all multiple choice questions";
+  if (typeStr === "True/False") typePrompt = "all true/false questions";
+
+  const prompt = `Generate a ${difficultyStr.toLowerCase()} difficulty quiz with ${count} questions. The format should be ${typePrompt}. Base the questions strictly on the following content: \n\n${content}`;
+
   const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview",
-    contents: `Generate a quiz with 5 multiple choice questions, 3 true/false questions, and 2 fill-in-the-blank questions based on the following content: \n\n${content}`,
+    contents: prompt,
     config: {
       responseMimeType: "application/json",
       responseSchema: {
@@ -74,17 +90,47 @@ export async function generateFlashcards(content: string) {
   }
 }
 
-export async function chatWithGemini(message: string, history: { role: string, parts: { text: string }[] }[]) {
+export interface ChatMessage {
+  role: "user" | "model";
+  text: string;
+}
+
+export async function chatWithGemini(
+  message: string,
+  history: ChatMessage[],
+  contextText?: string | null
+): Promise<string> {
+  const systemInstruction = contextText
+    ? `You are StudyBuddy AI, a friendly and encouraging study assistant.
+The user is currently studying the following document — use it as your primary knowledge source when answering:
+
+---DOCUMENT START---
+${contextText}
+---DOCUMENT END---
+
+Guidelines:
+- Ground your answers in the document above whenever the question is relevant to it.
+- If the user asks something not covered by the document, answer from general knowledge but note that it is outside the document.
+- Keep responses clear, concise, and encouraging.
+- Use markdown formatting (bullet points, bold, etc.) to improve readability.
+- Remember the full conversation history and refer back to earlier messages when needed.`
+    : `You are StudyBuddy AI, a friendly and encouraging educational assistant.
+Help the user study by answering their questions clearly and concisely.
+Use markdown formatting (bullet points, bold, etc.) to improve readability.
+Keep responses encouraging and educational.`;
+
+  // Build history in the format expected by the SDK
+  const sdkHistory = history.map((msg) => ({
+    role: msg.role,
+    parts: [{ text: msg.text }],
+  }));
+
   const chat = ai.chats.create({
-    //Gemini 3.1 Flash Lite
     model: "gemini-2.5-flash-lite",
-    config: {
-      systemInstruction: "You are StudyBuddy AI, a helpful educational assistant. Answer questions based on the user's study materials or general knowledge. Keep responses concise and encouraging.",
-    },
-    // history: history // The SDK might not support history directly in create, check sendMessage
+    config: { systemInstruction },
+    history: sdkHistory,
   });
 
-  // For simplicity in this first version, we'll just send the message
   const response = await chat.sendMessage({ message });
-  return response.text;
+  return response.text ?? "";
 }

@@ -1,13 +1,14 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, BookOpen, FileUp, Trophy, LogOut, GraduationCap, Menu, X, ChevronLeft, ChevronRight } from "lucide-react";
+import { LayoutDashboard, BookOpen, FileUp, Trophy, LogOut, GraduationCap, Menu, X, ChevronLeft, ChevronRight, MessageSquare } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
+import { useStudyContext } from "../hooks/useStudyContext";
 import { Button } from "./ui/Button";
-import { Chatbot } from "./Chatbot";
 import { cn } from "../lib/utils";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const { user, profile, logout } = useAuth();
+  const { contextText, contextTitle, loading: contextLoading } = useStudyContext(user?.uid);
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopCollapsed, setIsDesktopCollapsed] = React.useState(false);
@@ -15,6 +16,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navItems = [
     { label: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
     { label: "Upload", icon: FileUp, path: "/upload" },
+    { label: "Chat Assistant", icon: MessageSquare, path: "/chat" },
     { label: "Quizzes", icon: Trophy, path: "/quizzes" },
     { label: "Flashcards", icon: BookOpen, path: "/flashcards" },
   ];
@@ -131,8 +133,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
           {children}
         </div>
       </main>
-
-      <Chatbot />
     </div>
   );
 }

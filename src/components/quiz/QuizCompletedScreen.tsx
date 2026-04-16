@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Trophy, ArrowRight, RotateCcw } from "lucide-react";
+import { Trophy, ArrowRight, RotateCcw, MessageSquare } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Card, CardContent } from "../ui/Card";
 import { useNavigate } from "react-router-dom";
@@ -45,6 +45,10 @@ export function QuizCompletedScreen({ score, totalQuestions }: QuizCompletedScre
           <Button variant="outline" size="default" className="gap-2 w-full sm:w-auto h-12 rounded-xl text-base" onClick={() => window.location.reload()}>
             <RotateCcw size={20} />
             Try Again
+          </Button>
+          <Button variant="secondary" size="default" className="gap-2 w-full sm:w-auto h-12 rounded-xl text-base bg-indigo-50 text-indigo-600 hover:bg-indigo-100 border-none" onClick={() => navigate("/chat")}>
+            <MessageSquare size={20} />
+            Review with AI
           </Button>
         </div>
       </motion.div>

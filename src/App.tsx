@@ -13,6 +13,7 @@ import { Quiz } from "./pages/Quiz";
 import { Flashcards } from "./pages/Flashcards";
 import { QuizzesList } from "./pages/QuizzesList";
 import { FlashcardsList } from "./pages/FlashcardsList";
+import { Chat } from "./pages/Chat";
 import { Toaster } from "./components/ui/sonner";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -34,6 +35,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/upload" element={<PrivateRoute><Upload /></PrivateRoute>} />
+            <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
             <Route path="/quizzes" element={<PrivateRoute><QuizzesList /></PrivateRoute>} />
             <Route path="/quiz/:id" element={<PrivateRoute><Quiz /></PrivateRoute>} />
             <Route path="/flashcards" element={<PrivateRoute><FlashcardsList /></PrivateRoute>} />
