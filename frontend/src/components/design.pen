@@ -1,0 +1,754 @@
+{
+  "version": "2.10",
+  "children": [
+    {
+      "type": "frame",
+      "id": "1q3kr",
+      "x": -1329,
+      "y": -127,
+      "name": "Chat Assistant Screen",
+      "width": 1024,
+      "height": 768,
+      "fill": "#F4F5F5",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "egdTB",
+          "name": "appWrapper",
+          "width": "fill_container",
+          "height": "fill_container",
+          "gap": 32,
+          "padding": 32,
+          "children": [
+            {
+              "type": "frame",
+              "id": "5rsV2",
+              "name": "sidebar",
+              "width": 280,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000a",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "9bbn2",
+                  "name": "sidebarHeader",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "NThZ4",
+                      "fill": "#1E3322",
+                      "content": "StudyBuddy AI",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 20,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "TwB4N",
+                  "name": "newChatBtn",
+                  "width": "fill_container",
+                  "height": 48,
+                  "fill": "#2D6B3F",
+                  "cornerRadius": 9999,
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "aREaJ",
+                      "width": 18,
+                      "height": 18,
+                      "iconFontName": "plus",
+                      "iconFontFamily": "lucide",
+                      "fill": "#FFFFFF"
+                    },
+                    {
+                      "type": "text",
+                      "id": "rZYby",
+                      "fill": "#FFFFFF",
+                      "content": "New Chat",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "cRzkf",
+                  "name": "historyTitle",
+                  "fill": "#808A80",
+                  "content": "Today",
+                  "fontFamily": "Inter",
+                  "fontSize": 12,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "Dn9OL",
+                  "name": "historyItem1",
+                  "width": "fill_container",
+                  "fill": "#F4F5F5",
+                  "cornerRadius": 8,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "oDYcg",
+                      "fill": "#1E3322",
+                      "content": "Biology Quiz 3 Help",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "O9Av0",
+                  "name": "historyItem2",
+                  "width": "fill_container",
+                  "cornerRadius": 8,
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "zaUZj",
+                      "fill": "#6B7B6B",
+                      "content": "Calculus Formula Explanation",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "7PC5l",
+              "name": "mainChat",
+              "width": "fill_container",
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 16,
+              "effect": {
+                "type": "shadow",
+                "shadowType": "outer",
+                "color": "#0000000a",
+                "offset": {
+                  "x": 0,
+                  "y": 1
+                },
+                "blur": 2
+              },
+              "layout": "vertical",
+              "gap": 24,
+              "padding": 32,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "oBoa2",
+                  "name": "chatHeader",
+                  "width": "fill_container",
+                  "gap": 16,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon_font",
+                      "id": "umJ7E",
+                      "width": 32,
+                      "height": 32,
+                      "iconFontName": "bot",
+                      "iconFontFamily": "lucide",
+                      "fill": "#2D6B3F"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Ubg81",
+                      "fill": "#1E3322",
+                      "content": "Biology Assistant",
+                      "fontFamily": "Funnel Sans",
+                      "fontSize": 24,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "7LAIc",
+                  "name": "messagesArea",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 24,
+                  "padding": [
+                    0,
+                    24
+                  ],
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "k0HUL",
+                      "name": "msg1",
+                      "width": "fill_container",
+                      "justifyContent": "end",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "e6Srw",
+                          "name": "bubble1",
+                          "fill": "#2D6B3F",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "padding": [
+                            12,
+                            16
+                          ],
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "hXINj",
+                              "fill": "#FFFFFF",
+                              "content": "What is photosynthesis?",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "JIwjB",
+                      "name": "msg2",
+                      "width": "fill_container",
+                      "gap": 12,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "79mhL",
+                          "name": "avatar",
+                          "width": 36,
+                          "height": 36,
+                          "fill": "#F4F5F5",
+                          "cornerRadius": 9999,
+                          "justifyContent": "center",
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon_font",
+                              "id": "890wX",
+                              "width": 20,
+                              "height": 20,
+                              "iconFontName": "bot",
+                              "iconFontFamily": "lucide",
+                              "fill": "#2D6B3F"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JRrud",
+                          "name": "bubble2",
+                          "width": 500,
+                          "fill": "#F4F5F5",
+                          "cornerRadius": 16,
+                          "layout": "vertical",
+                          "gap": 12,
+                          "padding": 16,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "AvAfY",
+                              "fill": "#1E3322",
+                              "textGrowth": "fixed-width",
+                              "width": "fill_container",
+                              "content": "Photosynthesis is the process by which green plants use sunlight to synthesize nutrients from carbon dioxide and water.",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "s1jgD",
+                  "name": "inputContainer",
+                  "width": "fill_container",
+                  "fill": "#FFFFFF",
+                  "cornerRadius": 16,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#F4F5F5"
+                  },
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000010",
+                    "offset": {
+                      "x": 0,
+                      "y": 2
+                    },
+                    "blur": 8
+                  },
+                  "padding": 16,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "w6yie",
+                      "fill": "#808A80",
+                      "content": "Ask anything about biology...",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "N2eY0",
+                      "name": "sendBtn",
+                      "width": 36,
+                      "height": 36,
+                      "fill": "#2D6B3F",
+                      "cornerRadius": 9999,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "SsIvf",
+                          "width": 16,
+                          "height": 16,
+                          "iconFontName": "send",
+                          "iconFontFamily": "lucide",
+                          "fill": "#FFFFFF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "W7kZL",
+      "x": -99,
+      "y": -105,
+      "name": "Quiz Generation Flow",
+      "fill": "#F1F5F9",
+      "gap": 64,
+      "padding": 64,
+      "children": [
+        {
+          "type": "frame",
+          "id": "zmzV0",
+          "name": "configScreen",
+          "width": 600,
+          "fill": "#FFFFFF",
+          "cornerRadius": 24,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000a",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 12
+          },
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 48,
+          "children": [
+            {
+              "type": "text",
+              "id": "JmsUU",
+              "fill": "#1E293B",
+              "content": "Generate New Quiz",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 32,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "RaSih",
+              "name": "sourceSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "YUUra",
+                  "fill": "#1E293B",
+                  "content": "1. Select Source Material",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "KpYOl",
+                  "name": "uploadZone",
+                  "width": "fill_container",
+                  "fill": "#F8FAFC",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#CBD5E1"
+                  },
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 32,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "el1j2",
+                      "name": "iconWrapper",
+                      "fill": "#E0E7FF",
+                      "cornerRadius": 9999,
+                      "padding": 12,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon_font",
+                          "id": "kO54w",
+                          "width": 24,
+                          "height": 24,
+                          "iconFontName": "upload-cloud",
+                          "iconFontFamily": "lucide",
+                          "fill": "#4F46E5"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "IfgIR",
+                      "fill": "#4F46E5",
+                      "content": "Click to upload or drag and drop",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "600"
+                    },
+                    {
+                      "type": "text",
+                      "id": "oGlwQ",
+                      "fill": "#64748B",
+                      "content": "PDF, DOCX, or TXT up to 10MB",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "u1YgN",
+                  "name": "orSelect",
+                  "width": "fill_container",
+                  "gap": 8,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "5Blr2",
+                      "fill": "#94A3B8",
+                      "content": "or",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "JnATz",
+                      "fill": "#4F46E5",
+                      "content": "select existing material",
+                      "fontFamily": "Inter",
+                      "fontSize": 12,
+                      "fontWeight": "600"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "qcpNR",
+              "name": "settingsSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 16,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LGJkF",
+                  "fill": "#1E293B",
+                  "content": "2. Quiz Settings",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "GMYmI",
+                  "name": "grid",
+                  "width": "fill_container",
+                  "gap": 24,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WRoo8",
+                      "name": "diffCol",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "sTn2o",
+                          "fill": "#64748B",
+                          "content": "Difficulty",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "JDJVD",
+                          "name": "diffBox",
+                          "width": "fill_container",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#E2E8F0"
+                          },
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "u1izR",
+                              "fill": "#1E293B",
+                              "content": "Medium",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "40M03",
+                      "name": "countCol",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "U5SY2",
+                          "fill": "#64748B",
+                          "content": "Questions",
+                          "fontFamily": "Inter",
+                          "fontSize": 14,
+                          "fontWeight": "500"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Wlrte",
+                          "name": "countBox",
+                          "width": "fill_container",
+                          "cornerRadius": 12,
+                          "stroke": {
+                            "thickness": 1,
+                            "fill": "#E2E8F0"
+                          },
+                          "padding": 12,
+                          "children": [
+                            {
+                              "type": "text",
+                              "id": "zY6Hy",
+                              "fill": "#1E293B",
+                              "content": "10",
+                              "fontFamily": "Inter",
+                              "fontSize": 14,
+                              "fontWeight": "normal"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "u82fy",
+              "name": "typeSection",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 8,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "S1pKE",
+                  "fill": "#64748B",
+                  "content": "Quiz Type",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "KVxMn",
+                  "name": "typeBox",
+                  "width": "fill_container",
+                  "cornerRadius": 12,
+                  "stroke": {
+                    "thickness": 1,
+                    "fill": "#E2E8F0"
+                  },
+                  "padding": 12,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "fSJTD",
+                      "fill": "#1E293B",
+                      "content": "Multiple Choice",
+                      "fontFamily": "Inter",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "92692",
+              "name": "genBtn",
+              "width": "fill_container",
+              "fill": "#4F46E5",
+              "cornerRadius": 12,
+              "padding": 16,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "yDOm0",
+                  "fill": "#FFFFFF",
+                  "content": "Generate Quiz",
+                  "fontFamily": "Inter",
+                  "fontSize": 16,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "n9gsB",
+          "name": "loadingScreen",
+          "width": 600,
+          "fill": "#FFFFFF",
+          "cornerRadius": 24,
+          "effect": {
+            "type": "shadow",
+            "shadowType": "outer",
+            "color": "#0000000a",
+            "offset": {
+              "x": 0,
+              "y": 4
+            },
+            "blur": 12
+          },
+          "layout": "vertical",
+          "gap": 32,
+          "padding": 48,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "zaKnK",
+              "name": "spinner",
+              "width": 64,
+              "height": 64,
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon_font",
+                  "id": "oq4wL",
+                  "width": 48,
+                  "height": 48,
+                  "iconFontName": "loader-2",
+                  "iconFontFamily": "lucide",
+                  "fill": "#4F46E5"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "mO0fz",
+              "fill": "#1E293B",
+              "content": "Analyzing Document...",
+              "fontFamily": "Funnel Sans",
+              "fontSize": 24,
+              "fontWeight": "600"
+            },
+            {
+              "type": "text",
+              "id": "KFg3E",
+              "fill": "#64748B",
+              "content": "Generating tailored questions and evaluating complexity.",
+              "fontFamily": "Inter",
+              "fontSize": 14,
+              "fontWeight": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
