@@ -72,13 +72,9 @@ class DocumentViewSet(viewsets.ModelViewSet):
                 extracted_text = extract_text_from_in_memory_file(file_obj, file_name)
             except Exception as e:
                 print(f"Error extracting text: {e}")
-                serializer.validated_data.pop('file', None)
                 serializer.save(user=self.request.user, file_name=file_name, status='error', content="")
                 return
-        
-        # 'file' is write-only and not a model field; remove it before save() hits Document.objects.create()
-        serializer.validated_data.pop('file', None)
-        
+                
         serializer.save(
             user=self.request.user, 
             file_name=file_name, 
