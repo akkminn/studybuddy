@@ -281,13 +281,11 @@ class PerformanceViewSet(viewsets.ModelViewSet):
         now = timezone.now().date()
         last_activity = user.last_activity.date() if user.last_activity else None
 
-        if last_activity:
-            if last_activity == now:
-                pass  # Already active today
-            elif last_activity == now - timedelta(days=1):
-                user.streak += 1
-            else:
+        if last_activity == now:
+            if user.streak == 0:
                 user.streak = 1
+        elif last_activity == now - timedelta(days=1):
+            user.streak += 1
         else:
             user.streak = 1
 

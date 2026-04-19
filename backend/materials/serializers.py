@@ -10,6 +10,10 @@ class DocumentSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'title', 'file_name', 'file', 'content', 'uploaded_at', 'status']
         read_only_fields = ['user', 'status', 'uploaded_at', 'content', 'file_name']
 
+    def create(self, validated_data):
+        validated_data.pop('file', None)
+        return super().create(validated_data)
+
 class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
