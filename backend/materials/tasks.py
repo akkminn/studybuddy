@@ -2,7 +2,6 @@ from celery import shared_task
 from google import genai
 import json
 from .models import Document, Quiz, Question, FlashcardDeck, Flashcard
-from .utils import extract_text_from_file
 
 # Initialize Gemini Client
 try:
