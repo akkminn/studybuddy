@@ -15,6 +15,7 @@ import {
   X,
   ChevronRight,
   Layers,
+  Network,
 } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { motion, AnimatePresence } from "motion/react";
@@ -71,6 +72,7 @@ function DocCard({
   onQuiz,
   onFlashcards,
   onChat,
+  onMindMap,
   isNew,
 }: {
   doc: { id: number; title: string; status: string; uploaded_at: string };
@@ -78,6 +80,7 @@ function DocCard({
   onQuiz: (id: number) => void;
   onFlashcards: (id: number) => void;
   onChat: (id: number) => void;
+  onMindMap: (id: number) => void;
   isNew?: boolean;
 }) {
   const [confirming, setConfirming] = useState(false);
@@ -200,7 +203,7 @@ function DocCard({
             <div className="px-4 pb-4">
               <div className="h-px bg-slate-100 mb-3" />
               <p className="text-xs text-slate-500 mb-3 font-medium">Generate from this document:</p>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <button
                   onClick={() => onQuiz(doc.id)}
                   className="flex flex-col items-center gap-2 p-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-100 hover:border-indigo-200 text-indigo-700 transition-all group"
@@ -214,6 +217,13 @@ function DocCard({
                 >
                   <Layers size={18} className="group-hover:scale-110 transition-transform" />
                   <span className="text-[11px] font-semibold">Flashcards</span>
+                </button>
+                <button
+                  onClick={() => onMindMap(doc.id)}
+                  className="flex flex-col items-center justify-center gap-2 p-3 rounded-xl bg-cyan-50 hover:bg-cyan-100 border border-cyan-100 hover:border-cyan-200 text-cyan-700 transition-all group text-center"
+                >
+                  <Network size={18} className="group-hover:scale-110 transition-transform" />
+                  <span className="text-[11px] font-semibold leading-tight">Mind Map</span>
                 </button>
                 <button
                   onClick={() => onChat(doc.id)}
@@ -543,6 +553,14 @@ export function Upload() {
                     <ChevronRight size={14} className="ml-auto text-slate-400" />
                   </button>
                   <button
+                    onClick={() => navigate(`/generate/mindmap?doc=${justUploadedId}`)}
+                    className="w-full flex items-center gap-3 bg-white hover:bg-cyan-50 border border-slate-200 hover:border-cyan-200 text-slate-700 hover:text-cyan-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all"
+                  >
+                    <Network size={16} className="text-cyan-500" />
+                    Generate Mind Map
+                    <ChevronRight size={14} className="ml-auto text-slate-400" />
+                  </button>
+                  <button
                     onClick={() => navigate(`/chat?doc=${justUploadedId}`)}
                     className="w-full flex items-center gap-3 bg-white hover:bg-emerald-50 border border-slate-200 hover:border-emerald-200 text-slate-700 hover:text-emerald-700 px-4 py-3 rounded-xl text-sm font-semibold transition-all"
                   >
@@ -560,8 +578,9 @@ export function Upload() {
             <div className="flex items-start gap-2.5 text-xs text-slate-400 px-1">
               <Info size={13} className="shrink-0 mt-0.5" />
               <p>
-                After upload, generate a <strong className="text-slate-500">Quiz</strong> or{" "}
-                <strong className="text-slate-500">Flashcard deck</strong> from any document in your
+                After upload, generate a <strong className="text-slate-500">Quiz</strong>,{" "}
+                <strong className="text-slate-500">Flashcard deck</strong>, or{" "}
+                <strong className="text-slate-500">Mind Map</strong> from any document in your
                 library at any time.
               </p>
             </div>
@@ -619,6 +638,7 @@ export function Upload() {
                         onQuiz={(id) => navigate(`/generate/quiz?doc=${id}`)}
                         onFlashcards={(id) => navigate(`/generate/flashcards?doc=${id}`)}
                         onChat={(id) => navigate(`/chat?doc=${id}`)}
+                        onMindMap={(id) => navigate(`/generate/mindmap?doc=${id}`)}
                       />
                     ))}
                   </AnimatePresence>

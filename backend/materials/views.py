@@ -7,10 +7,10 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Document, FlashcardDeck, GenerationUsage, Performance, Quiz
+from .models import Document, FlashcardDeck, GenerationUsage, Performance, Quiz, MindMap
 from .serializers import (
     DocumentSerializer, FlashcardDeckSerializer, GenerationUsageSerializer,
-    PerformanceSerializer, QuizSerializer
+    PerformanceSerializer, QuizSerializer, MindMapSerializer
 )
 
 DAILY_GENERATION_LIMIT = 5
@@ -167,8 +167,19 @@ class QuizViewSet(viewsets.ModelViewSet):
             result = task_result.get()
             if result and 'quiz_id' in result:
                 response_data['quiz_id'] = result['quiz_id']
-        except Exception:
-            pass  # Will fall back to polling on the frontend
+        except Exception as e:
+            error_str = str(e)
+            error_msg = error_str
+            try:
+                import re, ast
+                match = re.search(r"(\{.*\})", error_str)
+                if match:
+                    err_dict = ast.literal_eval(match.group(1))
+                    if 'error' in err_dict and 'message' in err_dict['error']:
+                        error_msg = err_dict['error']['message']
+            except Exception:
+                pass
+            return Response({'error': error_msg}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(response_data, status=status.HTTP_202_ACCEPTED)
 
@@ -249,8 +260,19 @@ class FlashcardDeckViewSet(viewsets.ModelViewSet):
             result = task_result.get()
             if result and 'deck_id' in result:
                 response_data['deck_id'] = result['deck_id']
-        except Exception:
-            pass  # Will fall back to polling on the frontend
+        except Exception as e:
+            error_str = str(e)
+            error_msg = error_str
+            try:
+                import re, ast
+                match = re.search(r"(\{.*\})", error_str)
+                if match:
+                    err_dict = ast.literal_eval(match.group(1))
+                    if 'error' in err_dict and 'message' in err_dict['error']:
+                        error_msg = err_dict['error']['message']
+            except Exception:
+                pass
+            return Response({'error': error_msg}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response(response_data, status=status.HTTP_202_ACCEPTED)
 
@@ -361,6 +383,7 @@ class GenerationUsageViewSet(viewsets.ReadOnlyModelViewSet):
         today = timezone.now().date()
         quiz_usage = GenerationUsage.objects.filter(user=request.user, type='quiz', date=today).first()
         flashcard_usage = GenerationUsage.objects.filter(user=request.user, type='flashcard', date=today).first()
+        mindmap_usage = GenerationUsage.objects.filter(user=request.user, type='mindmap', date=today).first()
 
         return Response({
             'quiz': {
@@ -371,4 +394,96 @@ class GenerationUsageViewSet(viewsets.ReadOnlyModelViewSet):
                 'used': flashcard_usage.count if flashcard_usage else 0,
                 'limit': DAILY_GENERATION_LIMIT,
             },
+            'mindmap': {
+                'used': mindmap_usage.count if mindmap_usage else 0,
+                'limit': DAILY_GENERATION_LIMIT,
+            },
         })
+
+
+class MindMapViewSet(viewsets.ModelViewSet):
+    serializer_class = MindMapSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = MindMap.objects.filter(user=self.request.user).order_by('-created_at')
+        document_id = self.request.query_params.get('document')
+        if document_id:
+            queryset = queryset.filter(document_id=document_id)
+        limit = self.request.query_params.get('limit')
+        if limit:
+            try:
+                queryset = queryset[:int(limit)]
+            except ValueError:
+                pass
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=False, methods=['post'], url_path='generate')
+    def generate(self, request):
+        """
+        POST /api/materials/mindmaps/generate/
+        Body: { document_id }
+
+        Checks the daily rate limit (5/day) then triggers async mind map generation.
+        Returns mindmap_id directly in synchronous (ALWAYS_EAGER) mode.
+        """
+        document_id = request.data.get('document_id')
+        if not document_id:
+            return Response({'error': 'document_id is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            document = Document.objects.get(id=document_id, user=request.user)
+        except Document.DoesNotExist:
+            return Response({'error': 'Document not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        if document.status != 'completed':
+            return Response(
+                {'error': f'Document is not ready (status: {document.status}). Please wait for processing to complete.'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        allowed, count = _check_and_increment_usage(request.user, 'mindmap')
+        if not allowed:
+            return Response(
+                {
+                    'error': f'Daily mind map generation limit reached ({DAILY_GENERATION_LIMIT}/day). Try again tomorrow.',
+                    'limit': DAILY_GENERATION_LIMIT,
+                    'used': count,
+                },
+                status=status.HTTP_429_TOO_MANY_REQUESTS
+            )
+
+        from .tasks import generate_mindmap_for_document
+        task_result = generate_mindmap_for_document.delay(
+            document_id=document.id,
+            user_id=request.user.id,
+        )
+
+        response_data = {
+            'message': 'Mind map generation started.',
+            'document_id': document.id,
+            'used': count,
+            'limit': DAILY_GENERATION_LIMIT,
+        }
+        try:
+            result = task_result.get()
+            if result and 'mindmap_id' in result:
+                response_data['mindmap_id'] = result['mindmap_id']
+        except Exception as e:
+            error_str = str(e)
+            error_msg = error_str
+            try:
+                import re, ast
+                match = re.search(r"(\{.*\})", error_str)
+                if match:
+                    err_dict = ast.literal_eval(match.group(1))
+                    if 'error' in err_dict and 'message' in err_dict['error']:
+                        error_msg = err_dict['error']['message']
+            except Exception:
+                pass
+            return Response({'error': error_msg}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(response_data, status=status.HTTP_202_ACCEPTED)

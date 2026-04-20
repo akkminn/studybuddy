@@ -4,11 +4,13 @@ import { apiUrl } from "../lib/api";
 export interface GenerationUsageData {
   quiz: { used: number; limit: number };
   flashcard: { used: number; limit: number };
+  mindmap: { used: number; limit: number };
 }
 
 const DEFAULT_USAGE: GenerationUsageData = {
   quiz: { used: 0, limit: 5 },
   flashcard: { used: 0, limit: 5 },
+  mindmap: { used: 0, limit: 5 },
 };
 
 export function useGenerationUsage() {

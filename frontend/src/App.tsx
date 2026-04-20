@@ -21,6 +21,9 @@ import { QuizzesList } from "./pages/QuizzesList";
 import { FlashcardsList } from "./pages/FlashcardsList";
 import { Chat } from "./pages/Chat";
 import { AuthCallback } from "./pages/AuthCallback";
+import { GenerateMindMap } from "./pages/GenerateMindMap";
+import { MindMap } from "./pages/MindMap";
+import { MindMapsList } from "./pages/MindMapsList";
 import { Toaster } from "./components/ui/sonner";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -54,6 +57,9 @@ export default function App() {
               <Route path="/quiz/:id" element={<PrivateRoute><Quiz /></PrivateRoute>} />
               <Route path="/flashcards" element={<PrivateRoute><FlashcardsList /></PrivateRoute>} />
               <Route path="/flashcards/:id" element={<PrivateRoute><Flashcards /></PrivateRoute>} />
+              <Route path="/generate/mindmap" element={<PrivateRoute><GenerateMindMap /></PrivateRoute>} />
+              <Route path="/mindmaps" element={<PrivateRoute><MindMapsList /></PrivateRoute>} />
+              <Route path="/mindmaps/:id" element={<PrivateRoute><MindMap /></PrivateRoute>} />
             </Routes>
           </Router>
         </ErrorBoundary>

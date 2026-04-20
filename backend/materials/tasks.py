@@ -1,7 +1,7 @@
 from celery import shared_task
 from google import genai
 import json
-from .models import Document, Quiz, Question, FlashcardDeck, Flashcard
+from .models import Document, Quiz, Question, FlashcardDeck, Flashcard, MindMap
 
 # Initialize Gemini Client
 try:
@@ -184,4 +184,90 @@ Text:
 
     except Exception as e:
         print(f"Error generating flashcards for document {document_id}: {e}")
+        raise
+
+
+@shared_task
+def generate_mindmap_for_document(document_id, user_id):
+    """
+    Generate a hierarchical mind map from an already-processed document.
+    Called by the /mindmaps/generate/ action after rate-limit check.
+    """
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+
+    try:
+        document = Document.objects.get(id=document_id)
+        user = User.objects.get(id=user_id)
+
+        full_text = document.content if document.content else ""
+        document_text = full_text[:40000]
+
+        if not document_text.strip():
+            raise ValueError("No extractable text found in the document.")
+
+        if client is None:
+            raise ValueError("Google GenAI SDK is not configured. Missing API Key?")
+
+        prompt = f"""
+You are an expert AI educator. Create a concise, well-structured mind map from the text below.
+
+Return your response strictly as a single, valid, parsable JSON object matching this schema:
+{{
+  "mindmap": {{
+    "title": "A short, relevant title for this mind map",
+    "root": {{
+      "label": "Central topic (1-4 words)",
+      "children": [
+        {{
+          "label": "Main branch (1-5 words)",
+          "children": [
+            {{
+              "label": "Sub-topic (1-5 words)",
+              "children": []
+            }}
+          ]
+        }}
+      ]
+    }}
+  }}
+}}
+
+Instructions:
+1. The root node should be the central concept of the entire text.
+2. Create 4-7 main branches from the root, each representing a key theme.
+3. Each branch may have 2-5 sub-topics (children). Sub-topics may also have children (max 3 levels deep from root).
+4. Keep every label very short (5 words or fewer). Do not use full sentences.
+5. Do NOT wrap JSON in markdown code blocks. Output raw JSON only.
+
+Text:
+{document_text}
+"""
+
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt,
+        )
+
+        response_text = response.text.strip()
+        if response_text.startswith("```json"):
+            response_text = response_text[7:]
+        if response_text.endswith("```"):
+            response_text = response_text[:-3]
+
+        data = json.loads(response_text.strip())
+        mindmap_data = data.get('mindmap', {})
+
+        mindmap = MindMap.objects.create(
+            document=document,
+            user=user,
+            title=mindmap_data.get('title', f"Mind Map for {document.title}"),
+            data=mindmap_data.get('root', {}),
+        )
+
+        print(f"Mind map {mindmap.id} generated for document {document_id}.")
+        return {'mindmap_id': mindmap.id}
+
+    except Exception as e:
+        print(f"Error generating mind map for document {document_id}: {e}")
         raise

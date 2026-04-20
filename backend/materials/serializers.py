@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Document, Quiz, Question, FlashcardDeck, Flashcard, Performance, GenerationUsage
+from .models import Document, Quiz, Question, FlashcardDeck, Flashcard, Performance, GenerationUsage, MindMap
 
 
 class DocumentSerializer(serializers.ModelSerializer):
@@ -52,3 +52,10 @@ class GenerationUsageSerializer(serializers.ModelSerializer):
         model = GenerationUsage
         fields = ['id', 'type', 'date', 'count']
         read_only_fields = ['user', 'date', 'count']
+
+
+class MindMapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MindMap
+        fields = ['id', 'document', 'user', 'title', 'data', 'created_at']
+        read_only_fields = ['user', 'created_at']

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../co
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import { formatDate } from "../lib/utils";
-import { Trophy, Clock, Zap, ArrowRight, BookOpen, Trash2 } from "lucide-react";
+import { Trophy, Clock, Zap, ArrowRight, BookOpen, Trash2, Plus } from "lucide-react";
 import { useQuizzes } from "../hooks/useQuizzes";
 import { toast } from "sonner";
 import {
@@ -31,10 +31,9 @@ export function QuizzesList() {
           <p className="text-sm text-slate-500">Manage and take your generated quizzes.</p>
         </div>
         <Link to="/generate/quiz">
-          <Button className="gap-2">
-            <Zap size={18} />
-            Generate New
-          </Button>
+          <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm text-sm">
+            <Plus size={16} /> Generate New
+          </button>
         </Link>
       </div>
 
@@ -122,7 +121,9 @@ export function QuizzesList() {
           <h3 className="text-lg font-bold text-slate-900 mb-2">No quizzes yet</h3>
           <p className="text-sm text-slate-500 mb-8 max-w-xs mx-auto">Generate a quiz from any of your uploaded documents.</p>
           <Link to="/generate/quiz">
-            <Button>Generate Quiz</Button>
+            <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm mx-auto">
+              <Plus size={16} /> Generate Quiz
+            </button>
           </Link>
         </Card>
       )}

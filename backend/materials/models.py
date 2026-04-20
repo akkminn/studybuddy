@@ -56,6 +56,7 @@ class GenerationUsage(models.Model):
     GENERATION_TYPES = [
         ('quiz', 'Quiz'),
         ('flashcard', 'Flashcard'),
+        ('mindmap', 'Mind Map'),
     ]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='generation_usage')
     type = models.CharField(max_length=20, choices=GENERATION_TYPES)
@@ -67,4 +68,15 @@ class GenerationUsage(models.Model):
 
     def __str__(self):
         return f"{self.user} — {self.type} — {self.date} ({self.count})"
+
+
+class MindMap(models.Model):
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    data = models.JSONField()  # {"root": {"label": str, "children": [...]}}
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.user})"
 

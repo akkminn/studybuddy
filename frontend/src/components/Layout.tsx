@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, BookOpen, FileUp, Trophy, LogOut, GraduationCap, Menu, X, ChevronLeft, ChevronRight, MessageSquare, Sun, Moon, Monitor } from "lucide-react";
+import { LayoutDashboard, BookOpen, FileUp, Trophy, LogOut, GraduationCap, Menu, X, ChevronLeft, ChevronRight, MessageSquare, Sun, Moon, Monitor, Network } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 import { useTheme } from "./ThemeProvider";
 import { useStudyContext } from "../hooks/useStudyContext";
@@ -21,6 +21,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     { label: "Chat Assistant", icon: MessageSquare, path: "/chat" },
     { label: "Quizzes", icon: Trophy, path: "/quizzes" },
     { label: "Flashcards", icon: BookOpen, path: "/flashcards" },
+    { label: "Mind Maps", icon: Network, path: "/mindmaps" },
   ];
 
   if (!user) return <>{children}</>;
