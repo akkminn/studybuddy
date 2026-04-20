@@ -254,6 +254,59 @@ class FlashcardDeckViewSet(viewsets.ModelViewSet):
 
         return Response(response_data, status=status.HTTP_202_ACCEPTED)
 
+    @action(detail=False, methods=['post'], url_path='tts')
+    def tts(self, request):
+        import base64
+        import struct
+        import io
+        import wave
+        from google import genai
+        
+        text = request.data.get('text')
+        if not text:
+            return Response({'error': 'text is required.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            client = genai.Client()
+            response = client.models.generate_content(
+                model='gemini-2.5-flash-preview-tts',
+                contents=text,
+                config={
+                    'response_modalities': ['AUDIO'],
+                    'speech_config': {
+                        'voice_config': {
+                            'prebuilt_voice_config': {
+                                'voice_name': 'Aoede'
+                            }
+                        }
+                    }
+                }
+            )
+            
+            audio_bytes = None
+            if hasattr(response, 'candidates') and response.candidates:
+                for part in response.candidates[0].content.parts:
+                    if hasattr(part, 'inline_data') and part.inline_data:
+                        audio_bytes = part.inline_data.data
+                        break
+                        
+            if not audio_bytes:
+                return Response({'error': 'Failed to generate audio from Gemini AI.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+            # Wrap raw PCM in a WAV container
+            wav_buffer = io.BytesIO()
+            with wave.open(wav_buffer, 'wb') as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)  # 16-bit
+                wav_file.setframerate(24000)
+                wav_file.writeframes(audio_bytes)
+            
+            audio_base64 = base64.b64encode(wav_buffer.getvalue()).decode('utf-8')
+            return Response({'audio': audio_base64, 'mime_type': 'audio/wav'})
+        except Exception as e:
+            print(f"Gemini TTS Error: {str(e)}")
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class PerformanceViewSet(viewsets.ModelViewSet):
     serializer_class = PerformanceSerializer

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Card } from "../components/ui/Card";
 import { motion } from "motion/react";
-import { ChevronLeft, ChevronRight, RotateCcw, BookOpen, Trophy, PartyPopper, Home, List, CheckCircle2, AlertCircle } from "lucide-react";
+import { ChevronLeft, ChevronRight, RotateCcw, BookOpen, Trophy, PartyPopper, Home, List, CheckCircle2, AlertCircle, Volume2, Loader2, Play, Pause, RefreshCw } from "lucide-react";
 
 import { cn, getErrorMessage } from "../lib/utils";
 import { apiUrl } from "../lib/api";
@@ -21,7 +21,93 @@ export function Flashcards() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isFinished, setIsFinished] = useState(false);
+  // TTS state machine: 'idle' | 'loading' | 'playing' | 'paused'
+  const [ttsState, setTtsState] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle');
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
+  // Stop and clean up audio when component unmounts
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  // Reset TTS state when navigating to a different card
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    setTtsState('idle');
+  }, [currentIndex]);
+
+  const fetchAndPlayTTS = async (text: string) => {
+    const cleanText = text.replace(/[#*`~_]/g, '');
+
+    // Stop any currently playing audio
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+    }
+
+    setTtsState('loading');
+
+    try {
+      const token = localStorage.getItem("jwt_token");
+      const res = await fetch(apiUrl('/api/materials/flashcard-decks/tts/'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ text: cleanText })
+      });
+
+      if (!res.ok) throw new Error('Failed to generate TTS');
+
+      const data = await res.json();
+      if (data.audio) {
+        const audioSrc = `data:${data.mime_type};base64,${data.audio}`;
+        const newAudio = new Audio(audioSrc);
+        audioRef.current = newAudio;
+        newAudio.onended = () => setTtsState('idle');
+        newAudio.onpause = () => {
+          // Only set to paused if the audio wasn't ended
+          if (!newAudio.ended) setTtsState('paused');
+        };
+        newAudio.onplay = () => setTtsState('playing');
+        await newAudio.play();
+      } else {
+        setTtsState('idle');
+      }
+    } catch (err) {
+      console.error(err);
+      setTtsState('idle');
+    }
+  };
+
+  const handlePlayPause = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (ttsState === 'idle') {
+      // Initial play — fetch audio from API
+      const card = flashcardSet?.flashcards[currentIndex];
+      if (card) fetchAndPlayTTS(card.back);
+    } else if (ttsState === 'playing' && audioRef.current) {
+      audioRef.current.pause();
+    } else if (ttsState === 'paused' && audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+
+  const handleRestart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play();
+    }
+  };
 
   useEffect(() => {
     const fetchSet = async () => {
@@ -204,7 +290,8 @@ export function Flashcards() {
             <div className="hidden sm:block absolute top-6 left-6 text-indigo-200">
               <BookOpen size={32} />
             </div>
-            <div className="w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar">
+
+            <div className="w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar mt-6 sm:mt-0">
               <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 leading-tight px-2 prose prose-slate max-w-none text-center prose-p:my-1 prose-strong:text-indigo-900">
                 <ReactMarkdown>{flashcardSet.flashcards[currentIndex].front}</ReactMarkdown>
               </div>
@@ -217,7 +304,37 @@ export function Flashcards() {
             <div className="hidden sm:block absolute top-6 left-6 text-emerald-200">
               <RotateCcw size={32} />
             </div>
-            <div className="max-w-md w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar">
+            {/* Audio player controls — back card only */}
+            <div className="absolute top-4 right-4 sm:top-5 sm:right-5 z-10 flex items-center gap-1">
+              {/* Restart button — only shown when audio is loaded (playing or paused) */}
+              {(ttsState === 'playing' || ttsState === 'paused') && (
+                <button
+                  onClick={handleRestart}
+                  className="text-emerald-500 hover:text-emerald-700 transition-colors bg-emerald-100 hover:bg-emerald-200 p-2 rounded-full shadow-sm"
+                  title="Restart audio"
+                >
+                  <RefreshCw size={18} />
+                </button>
+              )}
+              {/* Play / Pause / Loading button */}
+              <button
+                onClick={handlePlayPause}
+                className="text-emerald-500 hover:text-emerald-700 transition-colors bg-emerald-100 hover:bg-emerald-200 p-2 rounded-full shadow-sm"
+                title={ttsState === 'playing' ? 'Pause' : ttsState === 'paused' ? 'Resume' : 'Listen to definition'}
+                disabled={ttsState === 'loading'}
+              >
+                {ttsState === 'loading' ? (
+                  <Loader2 className="animate-spin" size={22} />
+                ) : ttsState === 'playing' ? (
+                  <Pause size={22} />
+                ) : ttsState === 'paused' ? (
+                  <Play size={22} />
+                ) : (
+                  <Volume2 size={22} />
+                )}
+              </button>
+            </div>
+            <div className="max-w-md w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar mt-6 sm:mt-0">
               <div className="text-sm sm:text-lg text-slate-800 leading-relaxed px-2 prose prose-slate max-w-none text-center prose-p:my-1 prose-strong:text-slate-900">
                 <ReactMarkdown>{flashcardSet.flashcards[currentIndex].back}</ReactMarkdown>
               </div>
