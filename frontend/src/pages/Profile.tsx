@@ -16,9 +16,9 @@ export function Profile() {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return new Intl.DateTimeFormat('en-US', { 
-        year: 'numeric', 
-        month: 'long', 
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
         day: 'numeric',
         hour: '2-digit',
         minute: '2-digit'
@@ -52,10 +52,10 @@ export function Profile() {
               Lvl {level}
             </div>
           </div>
-          
+
           <div className="space-y-1 w-full">
             <h2 className="text-xl font-bold text-slate-900 dark:text-white truncate" title={displayUser.email}>
-              {displayUser.email.split('@')[0]}
+              {displayUser.username}
             </h2>
             <div className="flex items-center justify-center gap-2 text-slate-500 dark:text-slate-400 text-sm">
               <Mail size={14} className="shrink-0" />
@@ -76,7 +76,7 @@ export function Profile() {
         {/* Stats & Progress Cards */}
         <div className="md:col-span-2 space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
+
             <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 flex flex-col justify-between group hover:border-indigo-200 dark:hover:border-indigo-800 transition-colors">
               <div className="flex items-center gap-3 mb-4">
                 <div className="bg-indigo-100 dark:bg-indigo-900/50 p-2.5 rounded-xl text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white duration-300">

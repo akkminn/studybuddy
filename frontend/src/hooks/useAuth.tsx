@@ -7,6 +7,7 @@ interface AppUser {
 
   uid: string;
   email: string;
+  username: string;
   role: string;
   points: number;
   streak: number;
@@ -39,36 +40,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshProfile = async () => {
     const token = localStorage.getItem("jwt_token");
     if (token) {
-       try {
-         const response = await fetch(apiUrl("/api/auth/user/"), {
-           headers: { 
-             'Authorization': `Bearer ${token}`,
-             'Content-Type': 'application/json'
-           }
-         });
-         
-         if (response.ok) {
-           const data = await response.json();
-           const appUser = {
-              uid: String(data.pk || data.id),
-              email: data.email || "",
-              role: data.role || "student",
-              points: data.points || 0,
-              streak: data.streak || 0,
-              lastActivity: data.last_activity || new Date().toISOString()
-           };
-           setUser(appUser);
-           setProfile(appUser);
-         } else {
-           // Token is invalid/expired
-           setUser(null);
-           setProfile(null);
-           localStorage.removeItem("jwt_token");
-           localStorage.removeItem("jwt_refresh_token");
-         }
-       } catch (error) {
-         console.error("Auth fetch failed", error);
-       }
+      try {
+        const response = await fetch(apiUrl("/api/auth/user/"), {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const appUser = {
+            uid: String(data.pk || data.id),
+            email: data.email || "",
+            username: data.username || "",
+            role: data.role || "student",
+            points: data.points || 0,
+            streak: data.streak || 0,
+            lastActivity: data.last_activity || new Date().toISOString()
+          };
+          setUser(appUser);
+          setProfile(appUser);
+        } else {
+          // Token is invalid/expired
+          setUser(null);
+          setProfile(null);
+          localStorage.removeItem("jwt_token");
+          localStorage.removeItem("jwt_refresh_token");
+        }
+      } catch (error) {
+        console.error("Auth fetch failed", error);
+      }
     }
     setLoading(false);
   };
@@ -79,7 +81,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     console.log("Initiating Google Login via Django Backend...");
     window.location.href = apiUrl("/accounts/google/login/");
   };
-  
+
   const loginWithEmail = async (email: string, password: string) => {
     const response = await fetch(apiUrl("/api/auth/login/"), {
       method: "POST",
@@ -99,7 +101,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else if (data.access) {
       localStorage.setItem("jwt_token", data.access);
     }
-    
+
     if (data.refresh_token) {
       localStorage.setItem("jwt_refresh_token", data.refresh_token);
     } else if (data.refresh) {
@@ -110,6 +112,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const appUser = {
         uid: String(data.user.pk || data.user.id),
         email: data.user.email || "",
+        username: data.user.username || "",
         role: data.user.role || "student",
         points: data.user.points || 0,
         streak: data.user.streak || 0,
@@ -124,9 +127,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const response = await fetch(apiUrl("/api/auth/registration/"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ 
-        email, 
-        password1: password, 
+      body: JSON.stringify({
+        email,
+        password1: password,
         password2: password,
         username: name.replace(/\s+/g, '').toLowerCase() || email.split('@')[0]
       }),
@@ -144,7 +147,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } else if (data.access) {
       localStorage.setItem("jwt_token", data.access);
     }
-    
+
     if (data.refresh_token) {
       localStorage.setItem("jwt_refresh_token", data.refresh_token);
     } else if (data.refresh) {
@@ -155,6 +158,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const appUser = {
         uid: String(data.user.pk || data.user.id),
         email: data.user.email || "",
+        username: data.user.username || "",
         role: data.user.role || "student",
         points: data.user.points || 0,
         streak: data.user.streak || 0,

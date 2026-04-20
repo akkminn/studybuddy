@@ -34,11 +34,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
         isDesktopCollapsed ? "md:w-20" : "md:w-64"
       )}>
         <div className="h-full flex flex-col relative">
-          
+
           {/* Collapse Toggle Button */}
-          <Button 
-            variant="outline" 
-            size="icon" 
+          <Button
+            variant="outline"
+            size="icon"
             className="absolute -right-4 top-8 rounded-full shadow-sm bg-white dark:bg-slate-800 disabled hidden md:flex h-8 w-8 z-50 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
             onClick={() => setIsDesktopCollapsed(!isDesktopCollapsed)}
           >
@@ -89,9 +89,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   {user.email?.[0].toUpperCase()}
                 </Link>
                 <div className="flex flex-col gap-1 items-center bg-slate-100 dark:bg-slate-800 p-1.5 rounded-full">
-                   <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-1.5 rounded-full hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400">
-                      {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-                   </button>
+                  <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="p-1.5 rounded-full hover:bg-white dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400">
+                    {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+                  </button>
                 </div>
                 <Button variant="ghost" size="icon" className="text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950" onClick={logout} title="Sign Out">
                   <LogOut size={20} />
@@ -104,20 +104,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     {user.email?.[0].toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{user.email}</p>
+                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">{user.username || user.email}</p>
                     <p className="text-xs text-slate-500 dark:text-slate-400 capitalize">{profile?.role || "Student"}</p>
                   </div>
                 </Link>
-                
+
                 <div className="flex items-center justify-between px-2 mb-4 bg-slate-100 dark:bg-slate-800/50 p-1 rounded-xl">
                   <button onClick={() => setTheme('light')} className={cn("flex-1 py-1.5 rounded-lg flex justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors", theme === 'light' && "bg-white dark:bg-slate-700 shadow-sm text-foreground")}>
-                     <Sun size={16} />
+                    <Sun size={16} />
                   </button>
                   <button onClick={() => setTheme('dark')} className={cn("flex-1 py-1.5 rounded-lg flex justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors", theme === 'dark' && "bg-white dark:bg-slate-700 shadow-sm text-foreground")}>
-                     <Moon size={16} />
+                    <Moon size={16} />
                   </button>
                   <button onClick={() => setTheme('system')} className={cn("flex-1 py-1.5 rounded-lg flex justify-center text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors", theme === 'system' && "bg-white dark:bg-slate-700 shadow-sm text-foreground")}>
-                     <Monitor size={16} />
+                    <Monitor size={16} />
                   </button>
                 </div>
 
