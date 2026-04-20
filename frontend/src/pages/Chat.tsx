@@ -12,6 +12,7 @@ export interface ChatMessage {
 }
 import ReactMarkdown from "react-markdown";
 import { cn, getErrorMessage } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 
 import { useAuth } from "../hooks/useAuth";
 import { useStudyContext } from "../hooks/useStudyContext";
@@ -279,7 +280,7 @@ export function Chat() {
         };
         if (selectedDocumentIds.length > 0) sessionPayload.document_ids = selectedDocumentIds;
 
-        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/chat/sessions/`, {
+        const res = await fetch(apiUrl("/api/chat/sessions/"), {
           method: "POST",
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
           body: JSON.stringify(sessionPayload),
@@ -294,7 +295,7 @@ export function Chat() {
       }
 
       const res = await fetch(
-        `http://localhost:8000/api/chat/sessions/${sid}/send_message/`,
+        apiUrl(`/api/chat/sessions/${sid}/send_message/`),
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },

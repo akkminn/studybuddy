@@ -10,7 +10,7 @@ import { cn } from "../lib/utils";
 export function Layout({ children }: { children: React.ReactNode }) {
   const { user, profile, logout } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { contextText, contextTitle, loading: contextLoading } = useStudyContext(user?.uid);
+  const { contextTitle } = useStudyContext();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [isDesktopCollapsed, setIsDesktopCollapsed] = React.useState(false);

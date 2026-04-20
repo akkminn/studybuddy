@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { apiUrl } from "../lib/api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +46,7 @@ export function Quiz() {
       if (!id) return;
       try {
         const token = localStorage.getItem("jwt_token");
-        const response = await fetch(`http://localhost:8000/api/materials/quizzes/${id}/`, {
+        const response = await fetch(apiUrl(`/api/materials/quizzes/${id}/`), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -143,7 +144,7 @@ export function Quiz() {
       const token = localStorage.getItem("jwt_token");
 
       // API request to post performance and increment gamification points
-      await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/performances/`, {
+      await fetch(apiUrl("/api/materials/performances/"), {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { useDocuments, DocumentItem } from "../hooks/useDocuments";
 import { useGenerationUsage } from "../hooks/useGenerationUsage";
 import { cn, getErrorMessage } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 
 
 function UsageBadge({ used, limit }: { used: number; limit: number }) {
@@ -82,7 +83,7 @@ export function GenerateFlashcards() {
     try {
       const token = localStorage.getItem("jwt_token");
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/flashcard-decks/generate/`, {
+      const res = await fetch(apiUrl("/api/materials/flashcard-decks/generate/"), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -119,7 +120,7 @@ export function GenerateFlashcards() {
       while (!found && attempts < 30) {
         await new Promise((r) => setTimeout(r, 3000));
         const deckRes = await fetch(
-          `http://localhost:8000/api/materials/flashcard-decks/?document=${document_id}&ordering=-created_at`,
+          apiUrl(`/api/materials/flashcard-decks/?document=${document_id}&ordering=-created_at`),
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const decks = await deckRes.json();

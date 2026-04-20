@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { apiUrl } from "../lib/api";
 
 export interface GenerationUsageData {
   quiz: { used: number; limit: number };
@@ -20,7 +21,7 @@ export function useGenerationUsage() {
       const token = localStorage.getItem("jwt_token");
       if (!token) return;
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/usage/`, {
+      const res = await fetch(apiUrl("/api/materials/usage/"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Failed to fetch usage");

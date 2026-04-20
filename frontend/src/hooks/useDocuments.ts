@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { apiUrl } from "../lib/api";
 
 export interface DocumentItem {
   id: number;
@@ -27,7 +28,7 @@ export function useDocuments() {
       }
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/documents/?ordering=-uploaded_at`,
+        apiUrl("/api/materials/documents/?ordering=-uploaded_at"),
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -52,7 +53,7 @@ export function useDocuments() {
   const deleteDocument = useCallback(async (id: number) => {
     const token = localStorage.getItem("jwt_token");
     const response = await fetch(
-      `http://localhost:8000/api/materials/documents/${id}/`,
+      apiUrl(`/api/materials/documents/${id}/`),
       {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
