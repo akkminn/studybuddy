@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../lib/api";
 
 export function useQuizzes(userId: string | undefined, limitCount?: number) {
   const [quizzes, setQuizzes] = useState<any[]>([]);
@@ -15,7 +16,7 @@ export function useQuizzes(userId: string | undefined, limitCount?: number) {
       try {
         setLoading(true);
         const token = localStorage.getItem("jwt_token");
-        const url = new URL(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/quizzes/`);
+        const url = new URL(apiUrl("/api/materials/quizzes/"));
         
         if (limitCount) {
           url.searchParams.append("limit", limitCount.toString());
@@ -48,7 +49,7 @@ export function useQuizzes(userId: string | undefined, limitCount?: number) {
   const deleteQuiz = async (quizId: string) => {
     try {
       const token = localStorage.getItem("jwt_token");
-      const response = await fetch(`http://localhost:8000/api/materials/quizzes/${quizId}/`, {
+      const response = await fetch(apiUrl(`/api/materials/quizzes/${quizId}/`), {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`

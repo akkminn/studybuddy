@@ -19,6 +19,7 @@ import {
 import { useAuth } from "../hooks/useAuth";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useDocuments } from "../hooks/useDocuments";
@@ -290,7 +291,7 @@ export function Upload() {
       formData.append("title", file.name);
 
       const token = localStorage.getItem("jwt_token");
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/documents/`, {
+      const res = await fetch(apiUrl("/api/materials/documents/"), {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formData,
@@ -311,7 +312,7 @@ export function Upload() {
       let done = false;
       while (!done && attempts < 30) {
         await new Promise((r) => setTimeout(r, 3000));
-        const docRes = await fetch(`http://localhost:8000/api/materials/documents/${docId}/`, {
+        const docRes = await fetch(apiUrl(`/api/materials/documents/${docId}/`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const docData = await docRes.json();

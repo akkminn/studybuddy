@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { DocumentItem, useDocuments } from "../hooks/useDocuments";
 import { useGenerationUsage } from "../hooks/useGenerationUsage";
 import { cn, getErrorMessage } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 
 
 interface QuizSettings {
@@ -95,7 +96,7 @@ export function GenerateQuiz() {
     try {
       const token = localStorage.getItem("jwt_token");
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/quizzes/generate/`, {
+      const res = await fetch(apiUrl("/api/materials/quizzes/generate/"), {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -134,7 +135,7 @@ export function GenerateQuiz() {
       while (!found && attempts < 30) {
         await new Promise((r) => setTimeout(r, 3000));
         const quizRes = await fetch(
-          `http://localhost:8000/api/materials/quizzes/?document=${document_id}&ordering=-created_at`,
+          `${apiUrl(`/api/materials/quizzes/?document=${document_id}&ordering=-created_at`)}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         const quizzes = await quizRes.json();

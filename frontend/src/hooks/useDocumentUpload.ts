@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { apiUrl } from "../lib/api";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -33,7 +34,7 @@ export function useDocumentUpload(userId: string | undefined) {
 
       const token = localStorage.getItem("jwt_token");
       
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/documents/`, {
+      const response = await fetch(apiUrl("/api/materials/documents/"), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -59,7 +60,7 @@ export function useDocumentUpload(userId: string | undefined) {
       while (isProcessing && checkAttempts < 30) { // Max 1.5 minutes
         await new Promise(resolve => setTimeout(resolve, 3000));
         
-        const docRes = await fetch(`http://localhost:8000/api/materials/documents/${docId}/`, {
+        const docRes = await fetch(apiUrl(`/api/materials/documents/${docId}/`), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
@@ -69,7 +70,7 @@ export function useDocumentUpload(userId: string | undefined) {
           isProcessing = false;
           
           // Now fetch the related quiz
-          const quizRes = await fetch(`http://localhost:8000/api/materials/quizzes/?document=${docId}`, {
+          const quizRes = await fetch(apiUrl(`/api/materials/quizzes/?document=${docId}`), {
              headers: { 'Authorization': `Bearer ${token}` }
           });
           

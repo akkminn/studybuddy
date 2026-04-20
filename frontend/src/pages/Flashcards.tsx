@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, RotateCcw, BookOpen, Trophy, PartyPopper, Home, List, CheckCircle2, AlertCircle } from "lucide-react";
 
 import { cn, getErrorMessage } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 
 import "./Flashcards.css";
 import ReactMarkdown from "react-markdown";
@@ -29,7 +30,7 @@ export function Flashcards() {
       setError(null);
       try {
         const token = localStorage.getItem("jwt_token");
-        const response = await fetch(`http://localhost:8000/api/materials/flashcard-decks/${id}/`, {
+        const response = await fetch(apiUrl(`/api/materials/flashcard-decks/${id}/`), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         

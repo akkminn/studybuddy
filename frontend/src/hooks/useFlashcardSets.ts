@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../lib/api";
 
 export function useFlashcardSets(userId: string | undefined, limitCount?: number) {
   const [sets, setSets] = useState<any[]>([]);
@@ -15,7 +16,7 @@ export function useFlashcardSets(userId: string | undefined, limitCount?: number
       try {
         setLoading(true);
         const token = localStorage.getItem("jwt_token");
-        const url = new URL(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/flashcard-decks/`);
+        const url = new URL(apiUrl("/api/materials/flashcard-decks/"));
         
         if (limitCount) {
           url.searchParams.append("limit", limitCount.toString());
@@ -48,7 +49,7 @@ export function useFlashcardSets(userId: string | undefined, limitCount?: number
   const deleteSet = async (setId: string) => {
     try {
       const token = localStorage.getItem("jwt_token");
-      const response = await fetch(`http://localhost:8000/api/materials/flashcard-decks/${setId}/`, {
+      const response = await fetch(apiUrl(`/api/materials/flashcard-decks/${setId}/`), {
         method: "DELETE",
         headers: {
           'Authorization': `Bearer ${token}`

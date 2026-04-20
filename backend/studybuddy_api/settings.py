@@ -162,13 +162,21 @@ if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL_ORIGINS', 'True') == 'True'
+# In production (DEBUG=False), restrict to specific origins only
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
 
-# Allow fetching from React/Vite dev server
+# Allow fetching from React/Vite dev server + production frontend URL
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://localhost:3000",
+    "http://localhost:5173",
 ]
+# Dynamically add the FRONTEND_URL env var (set to production Vercel URL)
+_frontend_url = os.environ.get('FRONTEND_URL', '').rstrip('/')
+if _frontend_url and _frontend_url not in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS.append(_frontend_url)
 
 # REST Framework Config
 REST_FRAMEWORK = {

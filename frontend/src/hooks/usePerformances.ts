@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { apiUrl } from "../lib/api";
 
 export function usePerformances(userId: string | undefined, limitCount?: number) {
   const [performances, setPerformances] = useState<any[]>([]);
@@ -15,7 +16,7 @@ export function usePerformances(userId: string | undefined, limitCount?: number)
       try {
         setLoading(true);
         const token = localStorage.getItem("jwt_token");
-        const url = new URL(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/materials/performances/`);
+        const url = new URL(apiUrl("/api/materials/performances/"));
         
         if (limitCount) {
           url.searchParams.append("limit", limitCount.toString());

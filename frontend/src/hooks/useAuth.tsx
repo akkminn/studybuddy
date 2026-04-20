@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { getErrorMessage } from "../lib/utils";
+import { apiUrl } from "../lib/api";
 
 interface AppUser {
 
@@ -39,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = localStorage.getItem("jwt_token");
     if (token) {
        try {
-         const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/user/`, {
+         const response = await fetch(apiUrl("/api/auth/user/"), {
            headers: { 
              'Authorization': `Bearer ${token}`,
              'Content-Type': 'application/json'
@@ -76,11 +77,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async () => {
     // Will be replaced with Google OAuth redirect or endpoint fetch
     console.log("Initiating Google Login via Django Backend...");
-    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/accounts/google/login/`;
+    window.location.href = apiUrl("/accounts/google/login/");
   };
   
   const loginWithEmail = async (email: string, password: string) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/login/`, {
+    const response = await fetch(apiUrl("/api/auth/login/"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -120,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUpWithEmail = async (name: string, email: string, password: string) => {
-    const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/registration/`, {
+    const response = await fetch(apiUrl("/api/auth/registration/"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ 
