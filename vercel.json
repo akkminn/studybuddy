@@ -18,19 +18,33 @@
       }
     }
   ],
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/backend/studybuddy_api/wsgi.py" },
-    { "source": "/admin/:path*", "destination": "/backend/studybuddy_api/wsgi.py" },
-    { "source": "/accounts/:path*", "destination": "/backend/studybuddy_api/wsgi.py" },
-    { "source": "/static/:path*", "destination": "/backend/studybuddy_api/wsgi.py" },
-    { "source": "/:path*", "destination": "/frontend/index.html" }
-  ],
-  "headers": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin-allow-popups" }
-      ]
+      "src": "/api/(.*)",
+      "dest": "/backend/studybuddy_api/wsgi.py"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/backend/studybuddy_api/wsgi.py"
+    },
+    {
+      "src": "/accounts/(.*)",
+      "dest": "/backend/studybuddy_api/wsgi.py"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/backend/studybuddy_api/wsgi.py"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/assets/(.*)",
+      "dest": "/frontend/assets/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/frontend/index.html"
     }
   ]
 }
