@@ -178,6 +178,12 @@ _frontend_url = os.environ.get('FRONTEND_URL', '').rstrip('/')
 if _frontend_url and _frontend_url not in CORS_ALLOWED_ORIGINS:
     CORS_ALLOWED_ORIGINS.append(_frontend_url)
 
+# Allow ALL *.vercel.app subdomains — Vercel generates unique subdomains per
+# branch/preview deployment (e.g. studybuddy-eight-red.vercel.app)
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://[\w\-]+\.vercel\.app$",
+]
+
 # REST Framework Config
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
