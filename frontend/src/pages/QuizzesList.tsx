@@ -27,8 +27,8 @@ export function QuizzesList() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Your Quizzes</h1>
-          <p className="text-sm text-slate-500">Manage and take your generated quizzes.</p>
+          <h1 className="text-2xl font-bold text-foreground">Your Quizzes</h1>
+          <p className="text-sm text-muted-foreground">Manage and take your generated quizzes.</p>
         </div>
         <Link to="/generate/quiz">
           <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-xl transition-colors shadow-sm text-sm">
@@ -40,7 +40,7 @@ export function QuizzesList() {
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-48 bg-slate-100 rounded-3xl animate-pulse" />
+            <div key={i} className="h-48 bg-muted rounded-3xl animate-pulse" />
           ))}
         </div>
       ) : quizzes.length > 0 ? (
@@ -92,14 +92,14 @@ export function QuizzesList() {
                 </AlertDialog>
               </div>
               <CardHeader className="pr-12">
-                <CardTitle className="text-lg group-hover:text-indigo-600 transition-colors">{quiz.title}</CardTitle>
+                <CardTitle className="text-lg group-hover:text-primary transition-colors">{quiz.title}</CardTitle>
                 <CardDescription className="flex items-center gap-2">
                   <Clock size={14} />
                   {formatDate(quiz.created_at)}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-4 text-sm text-slate-600 mb-6">
+                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
                   <span className="flex items-center gap-1.5">
                     <Trophy size={16} className="text-amber-500" />
                     {quiz.questions.length} Questions
@@ -117,9 +117,9 @@ export function QuizzesList() {
         </div>
       ) : (
         <Card className="p-12 text-center">
-          <BookOpen size={48} className="mx-auto mb-4 text-slate-200" />
-          <h3 className="text-lg font-bold text-slate-900 mb-2">No quizzes yet</h3>
-          <p className="text-sm text-slate-500 mb-8 max-w-xs mx-auto">Generate a quiz from any of your uploaded documents.</p>
+          <BookOpen size={48} className="mx-auto mb-4 text-muted-foreground/30" />
+          <h3 className="text-lg font-bold text-foreground mb-2">No quizzes yet</h3>
+          <p className="text-sm text-muted-foreground mb-8 max-w-xs mx-auto">Generate a quiz from any of your uploaded documents.</p>
           <Link to="/generate/quiz">
             <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm mx-auto">
               <Plus size={16} /> Generate Quiz

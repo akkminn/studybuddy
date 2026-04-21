@@ -26,22 +26,22 @@ export function Dashboard() {
   }, [rawPerformances]);
 
   const stats = [
-    { label: "Total Points", value: profile?.points || 0, icon: Zap, color: "text-amber-600 bg-amber-100" },
-    { label: "Current Streak", value: `${profile?.streak || 0} Days`, icon: Trophy, color: "text-emerald-600 bg-emerald-100" },
-    { label: "Quizzes Taken", value: performances.length, icon: BookOpen, color: "text-indigo-600 bg-indigo-100" },
-    { label: "Avg. Score", value: performances.length > 0 ? `${Math.round(performances.reduce((acc, p) => acc + p.score, 0) / performances.length)}%` : "0%", icon: TrendingUp, color: "text-rose-600 bg-rose-100" },
+    { label: "Total Points", value: profile?.points || 0, icon: Zap, color: "text-amber-500 bg-amber-500/15 dark:bg-amber-500/20" },
+    { label: "Current Streak", value: `${profile?.streak || 0} Days`, icon: Trophy, color: "text-emerald-500 bg-emerald-500/15 dark:bg-emerald-500/20" },
+    { label: "Quizzes Taken", value: performances.length, icon: BookOpen, color: "text-indigo-500 bg-indigo-500/15 dark:bg-indigo-500/20" },
+    { label: "Avg. Score", value: performances.length > 0 ? `${Math.round(performances.reduce((acc, p) => acc + p.score, 0) / performances.length)}%` : "0%", icon: TrendingUp, color: "text-rose-500 bg-rose-500/15 dark:bg-rose-500/20" },
   ];
   
   if (loading) {
-    return <div className="flex items-center justify-center min-h-[400px] text-indigo-600 animate-pulse font-medium">Loading Dashboard...</div>;
+    return <div className="flex items-center justify-center min-h-[400px] text-primary animate-pulse font-medium">Loading Dashboard...</div>;
   }
 
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Welcome back, {user?.email?.split("@")[0]}!</h1>
-        <p className="text-sm text-slate-500">Here's what's happening with your studies today.</p>
+        <h1 className="text-2xl font-bold text-foreground">Welcome back, {user?.email?.split("@")[0]}!</h1>
+        <p className="text-sm text-muted-foreground">Here's what's happening with your studies today.</p>
       </div>
 
       {/* Stats Grid */}
@@ -53,8 +53,8 @@ export function Dashboard() {
                 <stat.icon size={24} />
               </div>
               <div>
-                <p className="text-xs text-slate-500">{stat.label}</p>
-                <p className="text-xl font-bold text-slate-900">{stat.value}</p>
+                <p className="text-xs text-muted-foreground">{stat.label}</p>
+                <p className="text-xl font-bold text-foreground">{stat.value}</p>
               </div>
             </CardContent>
           </Card>
@@ -72,9 +72,9 @@ export function Dashboard() {
             {performances.length > 0 ? (
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart data={performances}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                  <XAxis dataKey="date" stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis stroke="#94a3b8" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val}%`} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-border" />
+                  <XAxis dataKey="date" stroke="currentColor" className="text-muted-foreground" fontSize={12} tickLine={false} axisLine={false} />
+                  <YAxis stroke="currentColor" className="text-muted-foreground" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `${val}%`} />
                   <Tooltip
                     contentStyle={{ borderRadius: "12px", border: "none", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}
                   />
@@ -82,7 +82,7 @@ export function Dashboard() {
                 </LineChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-slate-400">
+              <div className="h-full flex flex-col items-center justify-center text-muted-foreground">
                 <TrendingUp size={48} className="mb-4 opacity-20" />
                 <p>Take some quizzes to see your progress!</p>
               </div>
@@ -98,19 +98,19 @@ export function Dashboard() {
               <CardDescription>Your latest study materials</CardDescription>
             </div>
             <Link to="/quizzes">
-              <Button variant="ghost" size="sm" className="text-indigo-600">View All</Button>
+              <Button variant="ghost" size="sm">View All</Button>
             </Link>
           </CardHeader>
           <CardContent className="space-y-4">
             {recentQuizzes.length > 0 ? (
               recentQuizzes.map((quiz) => (
                 <Link key={quiz.id} to={`/quiz/${quiz.id}`} className="block group">
-                  <div className="p-4 rounded-2xl border border-slate-100 hover:border-indigo-100 hover:bg-indigo-50/30 transition-all">
+                  <div className="p-4 rounded-2xl border border-border hover:border-primary/30 hover:bg-primary/5 transition-all">
                     <div className="flex items-center justify-between mb-1">
-                      <h4 className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">{quiz.title}</h4>
-                      <ArrowRight size={16} className="text-slate-400 group-hover:text-indigo-600 transition-all group-hover:translate-x-1" />
+                      <h4 className="font-semibold text-foreground group-hover:text-primary transition-colors">{quiz.title}</h4>
+                      <ArrowRight size={16} className="text-muted-foreground group-hover:text-primary transition-all group-hover:translate-x-1" />
                     </div>
-                    <div className="flex items-center gap-3 text-xs text-slate-500">
+                    <div className="flex items-center gap-3 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1"><Clock size={12} /> {formatDate(quiz.created_at)}</span>
                       <span className="flex items-center gap-1"><Zap size={12} /> {quiz.questions?.length || 0} Questions</span>
                     </div>
@@ -118,7 +118,7 @@ export function Dashboard() {
                 </Link>
               ))
             ) : (
-              <div className="text-center py-8 text-slate-400">
+              <div className="text-center py-8 text-muted-foreground">
                 <p className="mb-4">No quizzes generated yet.</p>
                 <Link to="/upload">
                   <Button variant="outline" size="sm">Upload a Document</Button>
