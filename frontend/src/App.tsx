@@ -4,6 +4,7 @@
  */
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { Analytics } from "@vercel/analytics/react";
 import { AuthProvider, useAuth } from "./hooks/useAuth";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { Layout } from "./components/Layout";
@@ -64,6 +65,7 @@ export default function App() {
           </Router>
         </ErrorBoundary>
         <Toaster />
+        <Analytics />
       </AuthProvider>
     </ThemeProvider>
   );
