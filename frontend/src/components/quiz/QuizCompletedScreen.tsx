@@ -19,19 +19,19 @@ export function QuizCompletedScreen({ score, totalQuestions }: QuizCompletedScre
         <div className="w-24 h-24 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 mx-auto mb-8">
           <Trophy size={48} />
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Quiz Completed!</h1>
-        <p className="text-sm text-slate-500 mb-12">Great job! You've earned {score * 10} XP.</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Quiz Completed!</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-12">Great job! You've earned {score * 10} XP.</p>
 
         <div className="grid grid-cols-2 gap-6 mb-12">
           <Card className="border-2 border-indigo-100 shadow-sm">
             <CardContent className="p-6">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center mb-1">Score</p>
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center mb-1">Score</p>
               <p className="text-3xl font-bold text-indigo-600 text-center">{score} / {totalQuestions}</p>
             </CardContent>
           </Card>
           <Card className="border-2 border-emerald-100 shadow-sm">
             <CardContent className="p-6">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider text-center mb-1">Accuracy</p>
+              <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider text-center mb-1">Accuracy</p>
               <p className="text-3xl font-bold text-emerald-600 text-center">{percentage}%</p>
             </CardContent>
           </Card>

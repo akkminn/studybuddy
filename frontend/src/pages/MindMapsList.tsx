@@ -43,7 +43,7 @@ export function MindMapsList() {
       {loading && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-48 bg-slate-100 rounded-3xl animate-pulse" />
+            <div key={i} className="h-48 bg-slate-100 dark:bg-slate-800 rounded-3xl animate-pulse" />
           ))}
         </div>
       )}
@@ -58,8 +58,8 @@ export function MindMapsList() {
       {!loading && !error && mindMaps.length === 0 && (
         <Card className="p-12 text-center">
           <Network size={48} className="mx-auto mb-4 text-slate-200" />
-          <h3 className="text-lg font-bold text-slate-900 mb-2">No mind maps yet</h3>
-          <p className="text-sm text-slate-500 mb-8 max-w-xs mx-auto">Generate a concept map from any of your uploaded documents.</p>
+          <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 mb-2">No mind maps yet</h3>
+          <p className="text-sm text-slate-500 dark:text-slate-400 mb-8 max-w-xs mx-auto">Generate a concept map from any of your uploaded documents.</p>
           <Link to="/generate/mindmap">
             <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-xl transition-colors text-sm mx-auto">
               <Plus size={16} /> Generate Mind Map
@@ -124,7 +124,7 @@ export function MindMapsList() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-4 text-sm text-slate-600 mb-6">
+                <div className="flex items-center gap-4 text-sm text-slate-600 dark:text-slate-400 mb-6">
                   <span className="flex items-center gap-1.5">
                     <Network size={16} className="text-indigo-500" />
                     {map.data?.children?.length || 0} Branches

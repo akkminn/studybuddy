@@ -218,7 +218,7 @@ export function Quiz() {
         <AlertDialogContent className="rounded-2xl p-4">
           <AlertDialogHeader>
             <AlertDialogTitle className="text-lg text-center">Are you sure you want to quit?</AlertDialogTitle>
-            <AlertDialogDescription className="text-center text-slate-500 text-base">
+            <AlertDialogDescription className="text-center text-slate-500 dark:text-slate-400 text-base">
               You will lose your progress for this quiz!
             </AlertDialogDescription>
           </AlertDialogHeader>

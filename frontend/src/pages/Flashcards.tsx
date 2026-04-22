@@ -157,7 +157,7 @@ export function Flashcards() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 md:p-12 text-center"
+          className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 p-8 md:p-12 text-center"
         >
           <div className="flex justify-center mb-6">
             <div className="relative">
@@ -180,17 +180,17 @@ export function Flashcards() {
             </div>
           </div>
 
-          <h1 className="text-3xl font-bold text-slate-900 mb-2 font-['Funnel_Sans']">Study Session Complete!</h1>
-          <p className="text-slate-500 mb-8 max-w-sm mx-auto">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2 font-['Funnel_Sans']">Study Session Complete!</h1>
+          <p className="text-slate-500 dark:text-slate-400 mb-8 max-w-sm mx-auto">
             Great job! You've just mastered <strong>{flashcardSet.flashcards.length} flashcards</strong> from "{flashcardSet.title}".
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+            <div className="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
               <div className="text-2xl font-bold text-indigo-600">{flashcardSet.flashcards.length}</div>
               <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Cards Studied</div>
             </div>
-            <div className="bg-slate-50 rounded-2xl p-4 border border-slate-100">
+            <div className="bg-slate-50 dark:bg-slate-950 rounded-2xl p-4 border border-slate-100 dark:border-slate-800">
               <div className="text-2xl font-bold text-emerald-600">100%</div>
               <div className="text-xs font-semibold text-slate-400 uppercase tracking-widest">Completion Rate</div>
             </div>
@@ -211,14 +211,14 @@ export function Flashcards() {
               <Button
                 variant="outline"
                 onClick={() => navigate("/flashcards")}
-                className="py-6 rounded-2xl border-slate-200 text-slate-600 hover:bg-slate-50"
+                className="py-6 rounded-2xl border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:bg-slate-950"
               >
                 <List className="mr-2" size={18} /> Library
               </Button>
               <Button
                 variant="outline"
                 onClick={() => navigate("/dashboard")}
-                className="py-6 rounded-2xl border-slate-200 text-slate-600 hover:bg-slate-50"
+                className="py-6 rounded-2xl border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:bg-slate-950"
               >
                 <Home className="mr-2" size={18} /> Dashboard
               </Button>
@@ -235,8 +235,8 @@ export function Flashcards() {
         <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertCircle size={40} />
         </div>
-        <h2 className="text-2xl font-bold text-slate-800 mb-2">Couldn't Load Flashcards</h2>
-        <p className="text-slate-500 mb-8">{error}</p>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-2">Couldn't Load Flashcards</h2>
+        <p className="text-slate-500 dark:text-slate-400 mb-8">{error}</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Button onClick={() => window.location.reload()} variant="default" className="bg-indigo-600">
             <RotateCcw className="mr-2" size={18} /> Try Again
@@ -260,7 +260,7 @@ export function Flashcards() {
   if (!flashcardSet || !flashcardSet.flashcards || flashcardSet.flashcards.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-96 gap-4">
-        <div className="text-slate-500">No flashcards found in this set.</div>
+        <div className="text-slate-500 dark:text-slate-400">No flashcards found in this set.</div>
         <Button onClick={() => navigate("/dashboard")}>Go Back</Button>
       </div>
     );
@@ -273,7 +273,7 @@ export function Flashcards() {
           <ChevronLeft size={20} />
           <span className="hidden sm:inline">Back</span>
         </Button>
-        <div className="text-xs sm:text-sm font-medium text-slate-500">
+        <div className="text-xs sm:text-sm font-medium text-slate-500 dark:text-slate-400">
           Card {currentIndex + 1} of {flashcardSet.flashcards.length}
         </div>
         <div className="w-10 sm:w-20" /> {/* Spacer */}
@@ -292,7 +292,7 @@ export function Flashcards() {
             </div>
 
             <div className="w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar mt-6 sm:mt-0">
-              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 leading-tight px-2 prose prose-slate max-w-none text-center prose-p:my-1 prose-strong:text-indigo-900">
+              <div className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 leading-tight px-2 prose prose-slate dark:prose-invert max-w-none text-center prose-p:my-1 prose-strong:text-indigo-900 dark:prose-strong:text-indigo-200">
                 <ReactMarkdown>{flashcardSet.flashcards[currentIndex].front}</ReactMarkdown>
               </div>
             </div>
@@ -335,7 +335,7 @@ export function Flashcards() {
               </button>
             </div>
             <div className="max-w-md w-full max-h-[260px] sm:max-h-[280px] overflow-y-auto no-scrollbar mt-6 sm:mt-0">
-              <div className="text-sm sm:text-lg text-slate-800 leading-relaxed px-2 prose prose-slate max-w-none text-center prose-p:my-1 prose-strong:text-slate-900">
+              <div className="text-sm sm:text-lg text-slate-800 dark:text-slate-200 leading-relaxed px-2 prose prose-slate dark:prose-invert max-w-none text-center prose-p:my-1 prose-strong:text-slate-900 dark:prose-strong:text-slate-100">
                 <ReactMarkdown>{flashcardSet.flashcards[currentIndex].back}</ReactMarkdown>
               </div>
             </div>

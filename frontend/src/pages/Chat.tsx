@@ -94,7 +94,7 @@ function MessageBubble({
             ? "bg-indigo-600 text-white px-5 py-3.5 rounded-2xl rounded-tr-sm shadow-sm"
             : isServiceError
               ? "bg-amber-50 border border-amber-200 rounded-2xl rounded-tl-sm overflow-hidden"
-              : "bg-white text-slate-800 px-5 py-3.5 rounded-2xl rounded-tl-sm border border-slate-200 shadow-sm"
+              : "bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 px-5 py-3.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:border-slate-700 shadow-sm"
         )}
       >
         {isServiceError ? (
@@ -108,7 +108,7 @@ function MessageBubble({
               {onRetry && (
                 <button
                   onClick={() => onRetry(cleanText)}
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold bg-white border border-amber-300 text-amber-700 hover:bg-amber-50 px-3 py-1.5 rounded-lg transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold bg-white dark:bg-slate-900 border border-amber-300 text-amber-700 hover:bg-amber-50 px-3 py-1.5 rounded-lg transition-colors"
                 >
                   <RefreshCcw size={12} /> Retry
                 </button>
@@ -118,10 +118,10 @@ function MessageBubble({
         ) : (
           <div
             className={cn(
-              "prose prose-sm max-w-none",
+              "prose prose-sm max-w-none dark:prose-invert",
               isUser
-                ? "prose-invert prose-p:text-white prose-strong:text-white prose-p:m-0 prose-ul:my-1 prose-li:my-0"
-                : "prose-p:m-0 prose-ul:my-1 prose-li:my-0 prose-strong:text-slate-900 prose-p:text-slate-800"
+                ? "prose-p:text-white prose-strong:text-white prose-p:m-0 prose-ul:my-1 prose-li:my-0"
+                : "prose-p:m-0 prose-ul:my-1 prose-li:my-0 prose-strong:text-slate-900 dark:prose-strong:text-slate-100 prose-p:text-slate-800 dark:prose-p:text-slate-200"
             )}
           >
             <ReactMarkdown>{cleanText}</ReactMarkdown>
@@ -131,7 +131,7 @@ function MessageBubble({
 
       {/* User avatar */}
       {isUser && (
-        <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-600 flex items-center justify-center shrink-0 mt-1">
+        <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-600 dark:text-slate-400 flex items-center justify-center shrink-0 mt-1">
           <User size={15} />
         </div>
       )}
@@ -163,7 +163,7 @@ function DocItem({
         selected
           ? "bg-indigo-50 border border-indigo-200"
           : selectable
-            ? "hover:bg-slate-50 border border-transparent hover:border-slate-200"
+            ? "hover:bg-slate-50 dark:bg-slate-950 border border-transparent hover:border-slate-200 dark:border-slate-700"
             : "opacity-50 cursor-not-allowed border border-transparent"
       )}
     >
@@ -171,7 +171,7 @@ function DocItem({
       <div
         className={cn(
           "w-4 h-4 rounded-md border-2 flex items-center justify-center shrink-0 transition-all",
-          selected ? "bg-indigo-600 border-indigo-600" : "border-slate-300 bg-white"
+          selected ? "bg-indigo-600 border-indigo-600" : "border-slate-300 bg-white dark:bg-slate-900"
         )}
       >
         {selected && <CheckCircle2 size={10} className="text-white" />}
@@ -182,7 +182,7 @@ function DocItem({
         <p
           className={cn(
             "text-xs font-medium truncate leading-tight",
-            selected ? "text-indigo-800" : "text-slate-700"
+            selected ? "text-indigo-800" : "text-slate-700 dark:text-slate-300"
           )}
           title={doc.title}
         >
@@ -356,21 +356,21 @@ export function Chat() {
             animate={{ width: 288, opacity: 1 }}
             exit={{ width: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden shrink-0"
+            className="flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shrink-0"
             style={{ minWidth: 0 }}
           >
             {/* Header */}
-            <div className="p-4 border-b border-slate-100 shrink-0">
+            <div className="p-4 border-b border-slate-100 dark:border-slate-800 shrink-0">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center">
                     <Bot size={14} className="text-white" />
                   </div>
-                  <span className="text-sm font-bold text-slate-800">StudyBuddy AI</span>
+                  <span className="text-sm font-bold text-slate-800 dark:text-slate-200">StudyBuddy AI</span>
                 </div>
                 <button
                   onClick={() => setSidebarOpen(false)}
-                  className="p-1.5 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+                  className="p-1.5 rounded-lg hover:bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:text-slate-400 transition-colors"
                 >
                   <PanelLeftClose size={16} />
                 </button>
@@ -405,12 +405,12 @@ export function Chat() {
                   placeholder="Search…"
                   value={docSearch}
                   onChange={(e) => setDocSearch(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400/30 focus:border-indigo-400 transition-all"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-lg pl-8 pr-3 py-2 text-xs text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-400/30 focus:border-indigo-400 transition-all"
                 />
                 {docSearch && (
                   <button
                     onClick={() => setDocSearch("")}
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400"
                   >
                     <X size={12} />
                   </button>
@@ -428,7 +428,7 @@ export function Chat() {
               ) : filteredDocs.length === 0 ? (
                 <div className="text-center py-10 px-3">
                   <FileText size={28} className="mx-auto mb-2 text-slate-200" />
-                  <p className="text-xs text-slate-500 font-medium">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                     {documents.length === 0 ? "No documents yet" : "No matches"}
                   </p>
                   {documents.length === 0 && (
@@ -455,7 +455,7 @@ export function Chat() {
 
             {/* Max selection hint */}
             {!canSelectMore && (
-              <div className="px-4 py-2.5 border-t border-slate-100 bg-amber-50/50 shrink-0">
+              <div className="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 bg-amber-50/50 shrink-0">
                 <p className="text-[10px] text-amber-600 font-medium text-center">
                   Max 5 documents per session
                 </p>
@@ -466,14 +466,14 @@ export function Chat() {
       </AnimatePresence>
 
       {/* ══ MAIN CHAT ══ */}
-      <div className="flex-1 flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden">
+      <div className="flex-1 flex flex-col bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden">
 
         {/* Chat header */}
-        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 shrink-0">
+        <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
           {/* Sidebar toggle */}
           <button
             onClick={() => setSidebarOpen((v) => !v)}
-            className="p-2 rounded-xl hover:bg-slate-100 text-slate-500 hover:text-slate-700 transition-colors shrink-0"
+            className="p-2 rounded-xl hover:bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:text-slate-300 transition-colors shrink-0"
             title={sidebarOpen ? "Close sidebar" : "Open sidebar"}
           >
             {sidebarOpen ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
@@ -504,7 +504,7 @@ export function Chat() {
                   </span>
                 ))}
                 {selectedDocuments.length > 3 && (
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold bg-slate-50 text-slate-600 border border-slate-200 px-2.5 py-1 rounded-full whitespace-nowrap">
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full whitespace-nowrap">
                     +{selectedDocuments.length - 3} more
                   </span>
                 )}
@@ -528,7 +528,7 @@ export function Chat() {
         <div
           ref={scrollRef}
           onScroll={handleScroll}
-          className="flex-1 overflow-y-auto px-6 py-6 space-y-5 bg-slate-50/40"
+          className="flex-1 overflow-y-auto px-6 py-6 space-y-5 bg-slate-50 dark:bg-slate-950/40"
         >
           {messages.map((msg) => (
             <MessageBubble
@@ -551,7 +551,7 @@ export function Chat() {
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white flex items-center justify-center shrink-0 mt-1 shadow-sm">
                 <Bot size={16} />
               </div>
-              <div className="bg-white border border-slate-200 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
+              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
                 <TypingDots />
               </div>
             </motion.div>
@@ -568,7 +568,7 @@ export function Chat() {
                 <button
                   key={s}
                   onClick={() => handleSend(s)}
-                  className="text-xs font-medium bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-700 border border-slate-200 hover:border-indigo-200 px-3.5 py-2 rounded-full transition-all shadow-sm"
+                  className="text-xs font-medium bg-white dark:bg-slate-900 hover:bg-indigo-50 text-slate-600 dark:text-slate-400 hover:text-indigo-700 border border-slate-200 dark:border-slate-700 hover:border-indigo-200 px-3.5 py-2 rounded-full transition-all shadow-sm"
                 >
                   {s}
                 </button>
@@ -588,7 +588,7 @@ export function Chat() {
             >
               <button
                 onClick={scrollToBottom}
-                className="w-9 h-9 rounded-full bg-white border border-slate-200 shadow-lg text-slate-600 hover:text-indigo-600 flex items-center justify-center transition-colors"
+                className="w-9 h-9 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-lg text-slate-600 dark:text-slate-400 hover:text-indigo-600 flex items-center justify-center transition-colors"
               >
                 <ChevronDown size={18} />
               </button>
@@ -597,7 +597,7 @@ export function Chat() {
         </AnimatePresence>
 
         {/* Input area */}
-        <div className="px-4 pb-4 pt-3 border-t border-slate-100 bg-white shrink-0">
+        <div className="px-4 pb-4 pt-3 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shrink-0">
           {/* Quick action chips — shown when no doc selected */}
           {selectedDocuments.length === 0 && !sidebarOpen && (
             <div className="flex gap-2 mb-3 overflow-x-auto no-scrollbar">
@@ -612,7 +612,7 @@ export function Chat() {
 
           <form
             onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-            className="flex gap-2 items-end bg-white border border-slate-200 rounded-2xl px-2 py-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-400/30 focus-within:border-indigo-400 transition-all"
+            className="flex gap-2 items-end bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-2xl px-2 py-2 shadow-sm focus-within:ring-2 focus-within:ring-indigo-400/30 focus-within:border-indigo-400 transition-all"
           >
             <Input
               ref={inputRef}
@@ -639,7 +639,7 @@ export function Chat() {
                 "shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all",
                 input.trim() && !isLoading
                   ? "bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm"
-                  : "bg-slate-100 text-slate-400 cursor-not-allowed"
+                  : "bg-slate-100 dark:bg-slate-800 text-slate-400 cursor-not-allowed"
               )}
             >
               {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}

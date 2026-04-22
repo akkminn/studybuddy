@@ -104,7 +104,7 @@ export function Profile() {
               </div>
               <div>
                 <div className="text-4xl font-bold text-slate-900 dark:text-white flex items-baseline gap-2">
-                  {displayUser.streak} <span className="text-lg text-slate-500 text-normal">days</span>
+                  {displayUser.streak} <span className="text-lg text-slate-500 dark:text-slate-400 text-normal">days</span>
                 </div>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                   Keep learning to maintain it!

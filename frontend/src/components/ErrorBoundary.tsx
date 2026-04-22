@@ -27,20 +27,20 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-          <div className="max-w-md w-full bg-white rounded-2xl shadow-lg border border-slate-100 p-8 text-center space-y-6">
+        <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 p-4">
+          <div className="max-w-md w-full bg-white dark:bg-slate-900 rounded-2xl shadow-lg border border-slate-100 dark:border-slate-800 p-8 text-center space-y-6">
             <div className="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto">
               <AlertCircle size={32} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">Something went wrong</h2>
-              <p className="text-slate-500 text-sm">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Something went wrong</h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">
                 An unexpected error occurred rendering this page.
               </p>
             </div>
             
-            <div className="bg-slate-50 p-4 rounded-xl text-left border border-slate-100 overflow-auto">
-              <p className="text-xs font-mono text-slate-600 break-all">
+            <div className="bg-slate-50 dark:bg-slate-950 p-4 rounded-xl text-left border border-slate-100 dark:border-slate-800 overflow-auto">
+              <p className="text-xs font-mono text-slate-600 dark:text-slate-400 break-all">
                 {this.state.error?.message || "Unknown App Error"}
               </p>
             </div>

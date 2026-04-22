@@ -30,17 +30,17 @@ export function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-64px)] bg-slate-50 dark:bg-slate-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center text-indigo-600 mb-6">
           <div className="bg-indigo-600 p-3 rounded-2xl text-white shadow-lg">
             <GraduationCap size={32} />
           </div>
         </div>
-        <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900 font-['Funnel_Sans']">
+        <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 font-['Funnel_Sans']">
           Welcome back
         </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
+        <p className="mt-2 text-center text-sm text-slate-600 dark:text-slate-400">
           Don't have an account?{" "}
           <Link to="/signup" className="font-semibold text-indigo-600 hover:text-indigo-500">
             Sign up for free
@@ -49,7 +49,7 @@ export function Login() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-[450px]">
-        <div className="bg-white py-8 px-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] sm:rounded-3xl sm:px-10 border border-slate-100">
+        <div className="bg-white dark:bg-slate-900 py-8 px-4 shadow-[0_4px_12px_rgba(0,0,0,0.05)] sm:rounded-3xl sm:px-10 border border-slate-100 dark:border-slate-800">
           <form className="space-y-6" onSubmit={handleEmailLogin}>
             {error && (
               <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm font-medium border border-red-100">
@@ -57,7 +57,7 @@ export function Login() {
               </div>
             )}
             <div>
-              <label className="block text-sm font-medium text-slate-700">Email address</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email address</label>
               <div className="mt-2 relative rounded-xl shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <Mail size={18} />
@@ -67,14 +67,14 @@ export function Login() {
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="pl-10 block w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-12 bg-slate-50 focus:bg-white transition-colors"
+                  className="pl-10 block w-full rounded-xl border-slate-200 dark:border-slate-700 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-12 bg-slate-50 dark:bg-slate-950 focus:bg-white dark:bg-slate-900 transition-colors"
                   placeholder="you@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700">Password</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
               <div className="mt-2 relative rounded-xl shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                   <Lock size={18} />
@@ -84,7 +84,7 @@ export function Login() {
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="pl-10 pr-10 block w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-12 bg-slate-50 focus:bg-white transition-colors"
+                  className="pl-10 pr-10 block w-full rounded-xl border-slate-200 dark:border-slate-700 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-12 bg-slate-50 dark:bg-slate-950 focus:bg-white dark:bg-slate-900 transition-colors"
                   placeholder="••••••••"
                 />
                 <button
@@ -105,7 +105,7 @@ export function Login() {
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded cursor-pointer"
                 />
-                <label htmlFor="remember-me" className="block text-sm text-slate-600 cursor-pointer">
+                <label htmlFor="remember-me" className="block text-sm text-slate-600 dark:text-slate-400 cursor-pointer">
                   Remember me
                 </label>
               </div>
@@ -125,10 +125,10 @@ export function Login() {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-slate-200" />
+                <div className="w-full border-t border-slate-200 dark:border-slate-700" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-3 bg-white text-slate-500">Or continue with</span>
+                <span className="px-3 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400">Or continue with</span>
               </div>
             </div>
 
@@ -136,7 +136,7 @@ export function Login() {
               <button
                 onClick={login}
                 type="button"
-                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-slate-200 rounded-xl shadow-sm bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+                className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl shadow-sm bg-white dark:bg-slate-900 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:bg-slate-950 transition-colors"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24">
                   <path

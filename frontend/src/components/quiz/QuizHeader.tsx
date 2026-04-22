@@ -14,7 +14,7 @@ interface QuizHeaderProps {
 export function QuizHeader({ currentQuestion, totalQuestions, streak, hearts, onExit }: QuizHeaderProps) {
   return (
     <div className="max-w-3xl mx-auto w-full px-4 mb-8 flex items-center gap-4">
-      <Button variant="ghost" size="icon" className="text-slate-400 hover:bg-slate-100 hover:text-slate-600 shrink-0" onClick={onExit}>
+      <Button variant="ghost" size="icon" className="text-slate-400 hover:bg-slate-100 dark:bg-slate-800 hover:text-slate-600 dark:text-slate-400 shrink-0" onClick={onExit}>
         <X size={28} />
       </Button>
 

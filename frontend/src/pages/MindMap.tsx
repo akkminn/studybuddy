@@ -423,7 +423,7 @@ export function MindMap() {
       <div className="flex items-center justify-center min-h-[500px] text-indigo-600">
         <div className="flex flex-col items-center gap-4">
           <Loader2 size={40} className="animate-spin" />
-          <p className="text-slate-500 font-medium">Loading mind map…</p>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">Loading mind map…</p>
         </div>
       </div>
     );
@@ -434,7 +434,7 @@ export function MindMap() {
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="text-center space-y-4">
           <Network size={48} className="text-slate-300 mx-auto" />
-          <p className="text-slate-500">{error || "Mind map not found."}</p>
+          <p className="text-slate-500 dark:text-slate-400">{error || "Mind map not found."}</p>
           <button
             onClick={() => navigate("/mindmaps")}
             className="text-sm text-indigo-600 underline"
@@ -453,7 +453,7 @@ export function MindMap() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate("/mindmaps")}
-            className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500"
+            className="p-2 rounded-xl hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400"
           >
             <ArrowLeft size={20} />
           </button>
@@ -461,7 +461,7 @@ export function MindMap() {
             <h1 className="text-lg font-bold text-slate-800 dark:text-slate-100 line-clamp-1">
               {mindMap.title}
             </h1>
-            <p className="text-xs text-slate-400 dark:text-slate-500">
+            <p className="text-xs text-slate-400 dark:text-slate-500 dark:text-slate-400">
               Click a node to highlight its subtree · Scroll to zoom · Drag to pan
             </p>
           </div>
@@ -471,24 +471,24 @@ export function MindMap() {
         <div className="flex items-center gap-2">
           <button
             onClick={zoomOut}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
             title="Zoom out"
           >
             <ZoomOut size={16} />
           </button>
-          <span className="text-xs font-mono text-slate-500 w-12 text-center">
+          <span className="text-xs font-mono text-slate-500 dark:text-slate-400 w-12 text-center">
             {Math.round(camera.zoom * 100)}%
           </span>
           <button
             onClick={zoomIn}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
             title="Zoom in"
           >
             <ZoomIn size={16} />
           </button>
           <button
             onClick={resetView}
-            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
+            className="p-2 rounded-xl border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors"
             title="Reset view"
           >
             <Maximize2 size={16} />
@@ -523,7 +523,7 @@ export function MindMap() {
         />
 
         {/* Legend */}
-        <div className="absolute bottom-4 left-4 flex flex-col gap-1.5 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-sm">
+        <div className="absolute bottom-4 left-4 flex flex-col gap-1.5 bg-white dark:bg-slate-900/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-sm">
           {[
             { label: "Root", color: "#4f46e5" },
             { label: "Branch 1", color: "#7c3aed" },
@@ -539,14 +539,14 @@ export function MindMap() {
 
         {/* Selected node info */}
         {selectedId && (
-          <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl px-4 py-3 border border-amber-300 shadow-sm max-w-[200px]">
+          <div className="absolute top-4 right-4 bg-white dark:bg-slate-900/90 dark:bg-slate-900/90 backdrop-blur-sm rounded-xl px-4 py-3 border border-amber-300 shadow-sm max-w-[200px]">
             <p className="text-[11px] text-amber-600 font-semibold uppercase tracking-wide mb-1">Selected</p>
             <p className="text-sm font-medium text-slate-700 dark:text-slate-200 line-clamp-2">
               {layout.get(selectedId)?.label}
             </p>
             <button
               onClick={() => setSelectedId(null)}
-              className="text-[10px] text-slate-400 hover:text-slate-600 mt-2 underline"
+              className="text-[10px] text-slate-400 hover:text-slate-600 dark:text-slate-400 mt-2 underline"
             >
               Deselect
             </button>

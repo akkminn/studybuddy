@@ -12,8 +12,8 @@ export function GameOverScreen() {
           <Heart size={48} className="fill-current" />
           <div className="absolute font-bold text-rose-100 text-xl mb-1 flex items-center justify-center">0</div>
         </div>
-        <h1 className="text-2xl font-bold text-slate-900 mb-2">Out of Hearts!</h1>
-        <p className="text-sm text-slate-500 mb-12">Keep practicing. Mistakes help you learn.</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">Out of Hearts!</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-12">Keep practicing. Mistakes help you learn.</p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button size="lg" className="gap-2" onClick={() => navigate("/dashboard")}>

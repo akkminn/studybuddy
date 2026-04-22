@@ -68,10 +68,10 @@ export function QuestionCard({ currentQuestionIndex, question, isAnswered, selec
                     onClick={() => onAnswer(option)}
                     className={cn(
                       "w-full p-4 text-left rounded-xl border-2 transition-all flex items-center justify-between text-base font-medium",
-                      !isAnswered && "border-slate-200 hover:border-indigo-300 hover:bg-indigo-50/50 shadow-sm",
+                      !isAnswered && "border-slate-200 dark:border-slate-700 hover:border-indigo-300 hover:bg-indigo-50/50 shadow-sm",
                       isAnswered && option === question.correctAnswer && "border-emerald-500 bg-emerald-50 text-emerald-700 shadow-sm",
                       isAnswered && selectedOption === option && option !== question.correctAnswer && "border-rose-500 bg-rose-50 text-rose-700 shadow-sm",
-                      isAnswered && option !== question.correctAnswer && selectedOption !== option && "border-slate-200 opacity-50 bg-slate-50"
+                      isAnswered && option !== question.correctAnswer && selectedOption !== option && "border-slate-200 dark:border-slate-700 opacity-50 bg-slate-50 dark:bg-slate-950"
                     )}
                   >
                     <span>{option}</span>
@@ -86,7 +86,7 @@ export function QuestionCard({ currentQuestionIndex, question, isAnswered, selec
                     <Input 
                       className={cn(
                         "text-lg p-6 h-16 rounded-xl border-2 shadow-sm transition-all pr-12",
-                        !isAnswered && "border-slate-200 focus:border-indigo-500 focus:ring-indigo-200",
+                        !isAnswered && "border-slate-200 dark:border-slate-700 focus:border-indigo-500 focus:ring-indigo-200",
                         isAnswered && selectedOption?.trim().toLowerCase() === question.correctAnswer?.trim().toLowerCase() && "border-emerald-500 bg-emerald-50 text-emerald-700",
                         isAnswered && selectedOption?.trim().toLowerCase() !== question.correctAnswer?.trim().toLowerCase() && "border-rose-500 bg-rose-50 text-rose-700"
                       )}

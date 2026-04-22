@@ -37,12 +37,12 @@ function UsageBadge({ used, limit }: { used: number; limit: number }) {
       : "bg-emerald-500";
 
   return (
-    <div className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200">
+    <div className="flex items-center gap-3 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-700">
       <div className={cn("w-2.5 h-2.5 rounded-full shrink-0", color)} />
       <div className="flex-1">
         <div className="flex justify-between items-center mb-1.5">
-          <span className="text-xs font-semibold text-slate-700">Daily Quiz Generations</span>
-          <span className="text-xs font-bold text-slate-800">{used}/{limit}</span>
+          <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">Daily Quiz Generations</span>
+          <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{used}/{limit}</span>
         </div>
         <div className="w-full h-1.5 rounded-full bg-slate-200 overflow-hidden">
           <div
@@ -165,14 +165,14 @@ export function GenerateQuiz() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-[600px] bg-white rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 p-12 text-center space-y-8"
+          className="w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 dark:border-slate-800 p-12 text-center space-y-8"
         >
           <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
             <CheckCircle2 size={40} />
           </div>
           <div>
-            <h2 className="text-3xl font-bold text-slate-800 font-['Funnel_Sans'] mb-3">Quiz is Ready!</h2>
-            <p className="text-slate-500">Your quiz has been generated successfully.</p>
+            <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-200 font-['Funnel_Sans'] mb-3">Quiz is Ready!</h2>
+            <p className="text-slate-500 dark:text-slate-400">Your quiz has been generated successfully.</p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
@@ -183,14 +183,14 @@ export function GenerateQuiz() {
             </button>
             <button
               onClick={() => navigate("/quizzes")}
-              className="flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-4 px-6 rounded-xl transition-colors"
+              className="flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 font-semibold py-4 px-6 rounded-xl transition-colors"
             >
               <BookmarkPlus size={20} /> Save for Later
             </button>
           </div>
           <button
             onClick={() => { setQuizId(null); setError(null); }}
-            className="text-sm text-slate-400 hover:text-slate-600 underline"
+            className="text-sm text-slate-400 hover:text-slate-600 dark:text-slate-400 underline"
           >
             Generate another quiz
           </button>
@@ -207,16 +207,16 @@ export function GenerateQuiz() {
             key="loading"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="w-full max-w-[600px] bg-white rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 p-12 flex flex-col items-center text-center space-y-6"
+            className="w-full max-w-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 dark:border-slate-800 p-12 flex flex-col items-center text-center space-y-6"
           >
             <div className="w-16 h-16 flex items-center justify-center text-indigo-600">
               <Loader2 size={48} className="animate-spin" />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-slate-800 font-['Funnel_Sans'] mb-2">
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 font-['Funnel_Sans'] mb-2">
                 Generating Quiz...
               </h2>
-              <p className="text-sm text-slate-500">AI is crafting your questions. Please wait.</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">AI is crafting your questions. Please wait.</p>
             </div>
           </motion.div>
         ) : (
@@ -225,15 +225,15 @@ export function GenerateQuiz() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="w-full max-w-[680px] bg-white rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 p-8 sm:p-12 space-y-8"
+            className="w-full max-w-[680px] bg-white dark:bg-slate-900 rounded-3xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] border border-slate-100 dark:border-slate-800 p-8 sm:p-12 space-y-8"
           >
             {/* Header */}
             <div className="flex items-start justify-between">
               <div>
-                <h1 className="text-[28px] font-bold text-slate-800 font-['Funnel_Sans'] tracking-tight">
+                <h1 className="text-[28px] font-bold text-slate-800 dark:text-slate-200 font-['Funnel_Sans'] tracking-tight">
                   Generate Quiz
                 </h1>
-                <p className="text-slate-500 text-sm mt-1">
+                <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
                   Pick a document from your library and configure the quiz.
                 </p>
               </div>
@@ -247,7 +247,7 @@ export function GenerateQuiz() {
 
             {/* Document picker */}
             <div className="space-y-3">
-              <h2 className="text-sm font-semibold text-slate-800">1. Select Document</h2>
+              <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-200">1. Select Document</h2>
               {docsLoading ? (
                 <div className="flex items-center gap-2 text-slate-400 text-sm py-4">
                   <Loader2 size={16} className="animate-spin" /> Loading documents...
@@ -272,7 +272,7 @@ export function GenerateQuiz() {
                         "w-full flex items-center gap-3 p-4 rounded-xl border text-left transition-all",
                         selectedDoc?.id === doc.id
                           ? "border-indigo-400 bg-indigo-50 text-indigo-800"
-                          : "border-slate-200 bg-white hover:bg-slate-50 text-slate-700"
+                          : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-950 text-slate-700 dark:text-slate-300"
                       )}
                     >
                       <FileText size={18} className="shrink-0" />
@@ -288,16 +288,16 @@ export function GenerateQuiz() {
 
             {/* Quiz settings */}
             <div className="space-y-4">
-              <h2 className="text-sm font-semibold text-slate-800">2. Quiz Settings</h2>
+              <h2 className="text-sm font-semibold text-slate-800 dark:text-slate-200">2. Quiz Settings</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Difficulty */}
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-slate-500">Difficulty</label>
+                  <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Difficulty</label>
                   <div className="relative">
                     <select
                       value={settings.difficulty}
                       onChange={(e) => setSettings({ ...settings, difficulty: e.target.value })}
-                      className="w-full appearance-none bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     >
                       <option>Easy</option>
                       <option>Medium</option>
@@ -309,7 +309,7 @@ export function GenerateQuiz() {
 
                 {/* Questions */}
                 <div className="space-y-2">
-                  <label className="text-xs font-medium text-slate-500">Number of Questions</label>
+                  <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Number of Questions</label>
                   <input
                     type="number"
                     min={1}
@@ -320,19 +320,19 @@ export function GenerateQuiz() {
                       if (val > 20) val = 20;
                       setSettings({ ...settings, questionCount: val });
                     }}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   />
                 </div>
               </div>
 
               {/* Quiz Type */}
               <div className="space-y-2">
-                <label className="text-xs font-medium text-slate-500">Quiz Type</label>
+                <label className="text-xs font-medium text-slate-500 dark:text-slate-400">Quiz Type</label>
                 <div className="relative">
                   <select
                     value={settings.quizType}
                     onChange={(e) => setSettings({ ...settings, quizType: e.target.value })}
-                    className="w-full appearance-none bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    className="w-full appearance-none bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   >
                     <option>Multiple Choice</option>
                     <option>True/False</option>
